@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Migrationsrechtlicher Prozesskostenrechner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: pink;
+    }
+
+    .popover {
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="container border border-5 rounded p-4 m-4">
+          <h1>Migrationsrechtlicher Prozesskostenrechner</h1>
+          <p>Erstellt von <a href="https://aufentha.lt">Marcel Keienborg</a>. Bitte beachte unbedingt die rechtlichen
+            Hinweise unten auf dieser Seite.</p>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4">
+          <h2>Streitwerte</h2>
+          <p>Grundlage für die Berechnung der Gebühren ist der sogenannte Streitwert. Wir müssen also zuerst die
+            Streitwerte für deine Angelegenheit ermitteln. Plural, weil gerade in gerichtlichen Verfahren häufig
+            zusätzlich zur Klage noch ein Antrag auf Gewährung vorläufigen Rechtsschutzes erforderlich ist. Manchmal
+            wird auch nur ein Antrag auf vorläufigen Rechtsschutz gestellt. Deswegen kann man hier verschiedene Optionen
+            wählen. Außerdem hängt die konkrete Höhe des Streitwerts auch von der Anzahl der Personen ab, die in einem
+            Verfahren zusammengefasst werden.</p>
+          <p>
+            <label for="thema">Wähle ein Thema, dann versucht der Rechner, dir die passenden Streitwerte vorzuschlagen.
+              Du kannst aber auch manuell selbst Streitwerte angeben.</label>
+          </p>
+          <p>
+            <select class="form-select" aria-label="Auswahl des Themas" id="thema">
+              <option value="0">Asylrecht: Zulässigkeit (z.B. Dublin, Drittstaatenfall, Folgeantrag)</option>
+              <option value="1">Asylrecht: Anerkennungsverfahren</option>
+              <option value="2">Asylrecht: Widerruf/Rücknahme</option>
+              <option value="3">Asylrecht: Untätigkeitsklage</option>
+              <option value="4" selected>Aufenthaltsrecht: Aufenthaltstitel inkl. Untätigkeitsklage</option>
+              <option value="5">Ausweisung</option>
+              <option value="6">Pass/Passersatz</option>
+              <option value="7">Aufenthaltsrecht: Duldung und Abschiebung inkl. Ausbildungs-/Beschäftigungsduldung,
+                Untätigkeitsklage</option>
+              <option value="8">Einbürgerung und Feststellung der Staatsangehörigkeit</option>
+            </select>
+          </p>
+          <p>
+            <label for="verfahren">Wähle aus, ob die Gebühren nur für ein Hauptsacheverfahren, nur für dein Verfahren
+              zum
+              vorläufigen Rechtsschutz, oder für beides berechnet werden sollen.</label>
+          </p>
+          <p>
+            <select class="form-select" aria-label="Auswahl der Verfahrensart" id="verfahren">
+              <option value="0">Nur Hauptsacheverfahren</option>
+              <option value="1">Nur Verfahren zum vorläufigen Rechtsschutz</option>
+              <option value="2">Hauptsacheverfahren und Verfahren zum vorläufigen Rechtsschutz</option>
+            </select>
+          </p>
+          <div class="row">
+            <div class="col">
+              <p><label for="anzahl">Anzahl Personen</label></p>
+              <p><input type="number" class="form-control" min="1" value="1" id="anzahl" data-bs-toggle="popover"
+                  data-bs-trigger="hover" title="Die Zahl der Personen"
+                  data-bs-content="Es geht um die Zahl der Personen, die in einem Verfahren zusammengefasst werden. Das trifft beispielsweise häufig auf Eheleute oder Eltern mit minderjährigen Kindern zu. Volljährige Kinder, Geschwister und Partner*innen laufen hingegen regelmäßig in eigenen Verfahren. In diesem Falle hat man mehrere Verfahren mit entsprechend niedrigerer Anzahl von Personen bzw. nur einzeln Personen.">
+              </p>
+            </div>
+            <div class="col">
+              <div id="div_streitwert" class="collapse">
+                <p><label for="streitwert">Streitwert Hauptsache</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" value="5.000,00" id="streitwert">
+                  <label class="input-group-text" for="streitwert">EUR</label>
+                </div>
+                </p>
+              </div>
+              <div id="div_streitwert_v" class="collapse">
+                <p><label for="streitwert_v">Streitwert vorläufiger Rechtsschutz</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" value="2.500,00" id="streitwert_v">
+                  <label class="input-group-text" for="streitwert_v">EUR</label>
+                </div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4">
+          <h2>Außergerichtliche Vertretung</h2>
+          <p>
+            <input type="checkbox" id="aussergerichtlich" data-bs-toggle="popover" data-bs-trigger="hover"
+              title="Außergerichtliche Vertretung"
+              data-bs-content="Kann nur ausgewählt werden, wenn oben nicht „Nur Verfahren zum vorläufigen Rechtsschutz“ ausgewählt wurde">
+            <label for="aussergerichtlich" data-bs-toggle="popover" data-bs-trigger="hover"
+              title="Außergerichtliche Vertretung"
+              data-bs-content="Kann nur ausgewählt werden, wenn oben nicht „Nur Verfahren zum vorläufigen Rechtsschutz“ ausgewählt wurde">Außergerichtliche
+              Vertretung</label>
+          </p>
+          <div class="collapse" id="div_aussergerichtlich">
+            <div class="row">
+              <div class="col">
+                <p><label for="gebuehrensatz">Gebührensatz</label></p>
+                <p><input type="number" class="form-control" step="0.1" min="0.5" max="2.5" value="1.3"
+                    data-bs-toggle="popover" data-bs-trigger="hover" title="Gebührensatz für die Geschäftsgebühr"
+                    data-bs-content="Eine Gebühr von mehr als 1,3 kann nur gefordert werden, wenn die Tätigkeit umfangreich oder schwierig war. Wenn du dir unsicher bist, wähle 1,3."
+                    id="gebuehrensatz"></p>
+              </div>
+              <div class="col">
+                <p><label for="geschaeftsgebuehr">Geschäftsgebühr, Nr. 2300 VV RVG</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="geschaeftsgebuehr">
+                  <label class="input-group-text" for="geschaeftsgebuehr">EUR</label>
+                </div>
+                </p>
+                <p><label for="pauschale_aussergerichtlich">Auslagenpauschale, Nr. 7002 VV RVG</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="pauschale_aussergerichtlich">
+                  <label class="input-group-text" for="pauschale_aussergerichtlich">EUR</label>
+                </div>
+                </p>
+                <p><label for="auslagen_aussergerichtlich">Sonstige Auslagen, z. B. Nr. 7000, 7003 ff. RVG</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="auslagen_aussergerichtlich" data-bs-toggle="popover"
+                    data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
+7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
+für Kopien und Ausdrucke                  
+für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
+für jede weitere Seite 0,15 EUR
+für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
+für jede weitere Seite in Farbe 0,30 EUR
+7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
+Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
+7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
+7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
+1. von nicht mehr als 4 Stunden 30,00 EUR
+2. von mehr als 4 bis 8 Stunden 50,00 EUR
+3. von mehr als 8 Stunden 80,00 EUR
+Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
+7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">
+                  <label class="input-group-text" for="auslagen_aussergerichtlich">EUR</label>
+                </div>
+                </p>
+                <p><label for="summe_aussergerichtlich">Summe</label></p>
+                <p>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="summe_aussergerichtlich">
+                  <label class="input-group-text" for="summe_aussergerichtlich">EUR</label>
+                </div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4 collapse" id="hauptsache">
+          <h2>Hauptsacheverfahren</h2>
+          <p>
+            <input type="checkbox" id="instanz_h1">
+            <label for="instanz_h1">1. Instanz</label>
+            <input type="checkbox" id="instanz_h2">
+            <label for="instanz_h2">2. Instanz</label>
+            <input type="checkbox" id="instanz_h3">
+            <label for="instanz_h3">3. Instanz</label>
+          </p>
+          <div class="collapse" id="div_instanz_h1">
+            <h3>1. Instanz</h3>
+            <h4>Rechtsanwaltsvergütungsgesetz</h4>
+            <p>
+            <div class="row fw-bold">
+              <div class="col-1"></div>
+              <div class="col-4">Gebührentatbestand und Nummer</div>
+              <div class="col-2">Gebührensatz</div>
+              <div class="col-2">Wertgebühr (§ 13 RVG)</div>
+              <div class="col-3">Wertgebühr (§ 49 RVG / Prozesskostenhilfe)</div>
+            </div>
+            </p>
+            <p>
+            <div class="row">
+              <div class="col-1"><input type="checkbox" id="3100_h1"></div>
+              <div class="col-4"><label for="3100_h1">Verfahrensgebühr, Nr. 3100</label></div>
+              <div class="col-2">1,3</div>
+              <div class="col-2" id="3100_13"></div>
+              <div class="col-3" id="3100_49"></div>
+            </div>
+            </p>
+            <p>
+              <div class="row">
+                <div class="col-1"><input type="checkbox" id="3101_h1"></div>
+                <div class="col-4"><label for="3101_h">Ermäßigte Verfahrensgebühr, Nr. 3101</label></div>
+                <div class="col-2">0,8</div>
+                <div class="col-7"></div>
+              </div>
+            </p>
+            <h4>Gerichtskostengesetz</h4>
+          </div>
+          <div class="collapse" id="div_instanz_h2">
+            <h3>2. Instanz</h3>
+            <h4>Rechtsanwaltsvergütungsgesetz</h4>
+            <h4>Gerichtskostengesetz</h4>
+          </div>
+          <div class="collapse" id="div_instanz_h3">
+            <h3>3. Instanz</h3>
+            <h4>Rechtsanwaltsvergütungsgesetz</h4>
+            <h4>Gerichtskostengesetz</h4>
+          </div>
+          <h3>Summen</h3>
+          <div class="row">
+            <div class="col"><h4>Rechtsanwaltsvergütungsgesetz</h4></div>
+            <div class="col text-end" id="summe_rvg_h"></div>
+          </div>
+          </div>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4 collapse" id="vorlaeufig">
+          <h2>Vorläufiger Rechtsschutz</h2>
+          <p>
+            <input type="checkbox" id="instanz_v1">
+            <label for="instanz_v1">1. Instanz</label>
+            <input type="checkbox" id="instanz_v2">
+            <label for="instanz_v2">2. Instanz</label>
+          </p>
+          <div class="collapse" id="div_instanz_v1">
+            <h3>1. Instanz</h3>
+            <h4>Rechtsanwaltsvergütungsgesetz</h4>
+            <h4>Gerichtskostengesetz</h4>
+          </div>
+          <div class="collapse" id="div_instanz_v2">
+            <h3>2. Instanz</h3>
+            <h4>Rechtsanwaltsvergütungsgesetz</h4>
+            <h4>Gerichtskostengesetz</h4>
+          </div>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4">
+          <h2>Summe</h2>
+          <h3>Summe Rechtsanwaltsvergütungsgesetz</h3>
+          <div class="row collapse" id="row_summe_aussergerichtlich">
+            <div class="col-4">
+              <label>Außergerichtliche Vertretung</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end">
+              <div id="l_summe_aussergerichtlich"></div>
+            </div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row collapse" id="row_summe_rvg_h">
+            <div class="col-4"><label>Hauptsacheverfahren</label></div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end" id="l_summe_rvg_h"></div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row collapse" id="row_summe_rvg_v">
+            <div class="col-4"><label>Vorläufiger Rechtsschutz</label></div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end" id="l_summe_rvg_v"></div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 fst-italic">
+              <label>Summe netto</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 fst-italic text-end">
+              <div id="summe_netto"></div>
+            </div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 d-grid align-items-center">
+              <label for="steuersatz">Umsatzsteuer, Nr. 7008 VV RVG</label>
+            </div>
+            <div class="col-2">
+              <div class="input-group">
+                <input type="number" class="form-control tax-input" value="19" id="steuersatz" data-bs-toggle="popover"
+                  data-bs-trigger="hover" title="Steuersatz für die Umsatzsteuer" data-bs-content="Wird als ganze Zahl interpretiert; 
+Nachkommastellen werden also ignoriert.
+Wenn keine Umsatzsteuer in Ansatz gebracht werden soll, einfach auf Null setzen.">
+                <label class="input-group-text" for="steuersatz">%</label>
+              </div>
+            </div>
+            <div class="col-3 d-grid align-items-center text-end">
+              <div id="umsatzsteuer"></div>
+            </div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 fw-bold">
+              <label>Summe brutto</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 fw-bold text-end">
+              <div id="summe_brutto"></div>
+            </div>
+            <div class="col-3"></div>
+          </div>
+
+          <h3>Summe Gerichtskostengesetz</h3>
+          <div class="row collapse" id="row_summe_gkg_h">
+            <div class="col-4">
+              <label>Hauptsacheverfahren</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end" id="l_summe_gkg_h"></div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row collapse" id="row_summe_gkg_v">
+            <div class="col-4">
+              <label>Vorläufiger Rechtsschutz</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end" id="l_summe_gkg_v"></div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 fw-bold">
+              <label>Summe</label>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 fw-bold text-end" id="l_summe_gkg"></div>
+            <div class="col-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <h3>Gesamtsumme</h3>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3 text-end" id="l_summe_total"></div>
+            <div class="col-3"></div>
+          </div>
+        </div>
+
+        <div class="container border border-5 rounded p-4 m-4">
+          <h2>Rechtliche Hinweise</h2>
+          <p>Dieser Prozesskostenrechner berechnet gesetzliche Gebühren auf der Grundlage des
+            Rechtsanwaltsvergütungsgesetzes (<a href="https://dejure.org/gesetze/RVG">RVG</a>), des
+            Gerichtskostengesetzes (<a href="https://dejure.org/gesetze/GKG">GKG</a>), des <a
+              href="https://www.bverwg.de/rechtsprechung/streitwertkatalog">Streitwertkatalogs</a> des
+            Bundesverwaltungsgerichts und meiner Erfahrung mit der Interpretation dieser Vorgaben durch die
+            Verwaltungsgerichte vornehmlich in NRW. Die Anrechnung der Geschäftsgebühr auf die Verfahrensgebühr
+            (Vorbemerkung 4 zu Teil 3 VV RVG) erfolgt immer auf die 1. Instanz des Hauptsacheverfahrens, da dies auch in
+            der Praxis nahezu immer der Fall sein wird. Soweit zumindest theoretisch auch Fälle konstruiert werden
+            können, in denen die Anrechnung auf die Verfahrensgebühr in einer höheren Insatz erfolgt, bleiben diese
+            Fälle hier um der Einfachheit willen unberücksichtigt. Der Rechner dient nur einer unverbindlichen
+            Orientierung und kann eine fachkunkdige Beratung nicht ersetzen. Seine Nutzung erfolgt insofern auf eigene
+            Gefahr. Es kann eine Vielzahl von Gründen geben, warum ein Gericht höhere oder niedrigere Kosten festsetzt,
+            als von diesem
+            Rechner ermittelt. Auch möchten viele Rechtsanwält*innen Vergütungsvereinbarungen schließen, die zum Teil
+            deutlich von den gesetzlich vorgesehenen Gebühren abweichen. Der Rechner geht zudem auch davon aus, dass
+            sich die Behördenseite nicht anwaltlich vertreten lässt. Tatsächlich lassen sich Behörden in
+            migrationsrechtlichen Streitigkeiten erfahungsgemäß selten anwaltlich vertreten. Völlig ausgeschlossen ist
+            es aber auch nicht. Ggf. würden hierdurch weitere Kosten entstehen, die dieser Rechner nicht berücksichtigt.
+            Außerdem berücksichtigt dieser Rechner keine Gebühren, die durch Behörden im Verwaltungsverfahren erhoben
+            werden.
+          </p>
+          <p>Der Rechner geht äußerst sparsam mit deinen Daten um. Zwar werden einige technisch benötigte Daten,
+            insbesondere deine IP-Adresse, an meinen Server gesendet und von meinem Server verarbeitet. Das ist nötig,
+            um die zum Rechner gehörenden Dateien an deinen Browser oder dein sonstiges Gerät, mit welchem du den
+            Rechner ausführst, schicken zu können. Der Rechner wird aber vollständig auf deinem Gerät ausgeführt. Das
+            bedeutet, dass alle Daten, die du in den Rechner eingibst, und die Ergebnisse, die von meinem Rechner
+            erzeugt werden, vollständig bei dir verbleiben, und erst gar nicht an meinen Server geschickt, geschweige
+            denn verarbeitet oder gespeichert werden.</p>
+          <p>Der Rechner ist zudem auch als Freie Software unter den Lizenzen Apache, Version 2.0, und MIT
+            veröffentlicht. Du kannst dir die Software also auch aus dem <a
+              href="https://codeberg.org/marceldus/mpkr">Repository</a> herunterladen und sie dann ganz auf einem Gerät
+            deiner Wahl ausführen. In diesem Falle hast mit meinem Server gar nichts mehr zu tun, und die Notwendigkeit,
+            Daten an meinen Server zu übertragen, entfällt ganz.</p>
+          <p>Und schließlich geht es hier noch zu meinem „<a
+              href="https://aufentha.lt/index.php/impressum/">Impressum</a>“.</p>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </form>
+
+  <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./bootstrap.js"></script>
+</body>
+
+</html>
