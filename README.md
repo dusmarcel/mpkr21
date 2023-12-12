@@ -1,71 +1,32 @@
 <div align="center">
 
-  <h1><code>wasm-pack-template</code></h1>
+  <h1><code>mpkr</code></h1>
 
-  <strong>A template for kick starting a Rust and WebAssembly project using <a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>.</strong>
-
-  <p>
-    <a href="https://travis-ci.org/rustwasm/wasm-pack-template"><img src="https://img.shields.io/travis/rustwasm/wasm-pack-template.svg?style=flat-square" alt="Build Status" /></a>
-  </p>
-
-  <h3>
-    <a href="https://rustwasm.github.io/docs/wasm-pack/tutorials/npm-browser-packages/index.html">Tutorial</a>
-    <span> | </span>
-    <a href="https://discordapp.com/channels/442252698964721669/443151097398296587">Chat</a>
-  </h3>
-
-  <sub>Built with 🦀🕸 by <a href="https://rustwasm.github.io/">The Rust and WebAssembly Working Group</a></sub>
+  <strong>Migrationsrechtlicher Prozesskostenrechner</strong>
 </div>
 
 ## About
 
-[**📚 Read this template tutorial! 📚**][template-docs]
-
-This template is designed for compiling Rust libraries into WebAssembly and
-publishing the resulting package to NPM.
-
-Be sure to check out [other `wasm-pack` tutorials online][tutorials] for other
-templates and usages of `wasm-pack`.
-
-[tutorials]: https://rustwasm.github.io/docs/wasm-pack/tutorials/index.html
-[template-docs]: https://rustwasm.github.io/docs/wasm-pack/tutorials/npm-browser-packages/index.html
-
-## 🚴 Usage
-
-### 🐑 Use `cargo generate` to Clone this Template
-
-[Learn more about `cargo generate` here.](https://github.com/ashleygwilliams/cargo-generate)
-
-```
-cargo generate --git https://github.com/rustwasm/wasm-pack-template.git --name my-project
-cd my-project
-```
-
-### 🛠️ Build with `wasm-pack build`
-
-```
-wasm-pack build
-```
-
-### 🔬 Test in Headless Browsers with `wasm-pack test`
-
-```
-wasm-pack test --headless --firefox
-```
-
-### 🎁 Publish to NPM with `wasm-pack publish`
-
-```
-wasm-pack publish
-```
-
-## 🔋 Batteries Included
-
-* [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) for communicating
-  between WebAssembly and JavaScript.
-* [`console_error_panic_hook`](https://github.com/rustwasm/console_error_panic_hook)
-  for logging panic messages to the developer console.
-* `LICENSE-APACHE` and `LICENSE-MIT`: most Rust projects are licensed this way, so these are included for you
+Dieser Prozesskostenrechner berechnet gesetzliche Gebühren auf der Grundlage des
+            Rechtsanwaltsvergütungsgesetzes (<a href="https://dejure.org/gesetze/RVG">RVG</a>), des
+            Gerichtskostengesetzes (<a href="https://dejure.org/gesetze/GKG">GKG</a>), des <a
+              href="https://www.bverwg.de/rechtsprechung/streitwertkatalog">Streitwertkatalogs</a> des
+            Bundesverwaltungsgerichts und meiner Erfahrung mit der Interpretation dieser Vorgaben durch die
+            Verwaltungsgerichte vornehmlich in NRW. Die Anrechnung der Geschäftsgebühr auf die Verfahrensgebühr
+            (Vorbemerkung 4 zu Teil 3 VV RVG) erfolgt immer auf die 1. Instanz des Hauptsacheverfahrens, da dies auch in
+            der Praxis nahezu immer der Fall sein wird. Soweit zumindest theoretisch auch Fälle konstruiert werden
+            können, in denen die Anrechnung auf die Verfahrensgebühr in einer höheren Insatz erfolgt, bleiben diese
+            Fälle hier um der Einfachheit willen unberücksichtigt. Der Rechner dient nur einer unverbindlichen
+            Orientierung und kann eine fachkunkdige Beratung nicht ersetzen. Seine Nutzung erfolgt insofern auf eigene
+            Gefahr. Es kann eine Vielzahl von Gründen geben, warum ein Gericht höhere oder niedrigere Kosten festsetzt,
+            als von diesem
+            Rechner ermittelt. Auch möchten viele Rechtsanwält*innen Vergütungsvereinbarungen schließen, die zum Teil
+            deutlich von den gesetzlich vorgesehenen Gebühren abweichen. Der Rechner geht zudem auch davon aus, dass
+            sich die Behördenseite nicht anwaltlich vertreten lässt. Tatsächlich lassen sich Behörden in
+            migrationsrechtlichen Streitigkeiten erfahungsgemäß selten anwaltlich vertreten. Völlig ausgeschlossen ist
+            es aber auch nicht. Ggf. würden hierdurch weitere Kosten entstehen, die dieser Rechner nicht berücksichtigt.
+            Außerdem berücksichtigt dieser Rechner keine Gebühren, die durch Behörden im Verwaltungsverfahren erhoben
+            werden.
 
 ## License
 
