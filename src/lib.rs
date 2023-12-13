@@ -313,9 +313,7 @@ impl Mpkr {
         self.rvg13_geb_h = rvg13_geb(streitwert);
         self.rvg49_geb_h = rvg49_geb(streitwert);
         self.gkg_geb_h = gkg_geb(streitwert);
-        if self.aussergerichtlich {
-            self.set_geschaeftsgebuehr((self.rvg13_geb_h as f64) * self.gebuehrensatz);
-        }
+        self.set_geschaeftsgebuehr((self.rvg13_geb_h as f64) * self.gebuehrensatz);
     }
 
     pub fn streitwert(&self) -> f64 {
