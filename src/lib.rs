@@ -312,7 +312,13 @@ impl Mpkr {
         self.streitwert = streitwert;
         self.rvg13_geb_h = rvg13_geb(streitwert);
         self.rvg49_geb_h = rvg49_geb(streitwert);
-        self.gkg_geb_h = gkg_geb(streitwert);
+        self.gkg_geb_h = match self.thema {
+            Thema::AsylZulaessigkeit |
+            Thema::AsylAnerkennung |
+            Thema::AsylWiderruf |
+            Thema::AsylUntaetigkeit => 0,
+            _ => gkg_geb(streitwert),
+        };
         self.set_geschaeftsgebuehr((self.rvg13_geb_h as f64) * self.gebuehrensatz);
     }
 
@@ -324,7 +330,13 @@ impl Mpkr {
         self.streitwert_v = streitwert_v;
         self.rvg13_geb_v = rvg13_geb(streitwert_v);
         self.rvg49_geb_v = rvg49_geb(streitwert_v);
-        self.gkg_geb_v = gkg_geb(streitwert_v);
+        self.gkg_geb_v = match self.thema {
+            Thema::AsylZulaessigkeit |
+            Thema::AsylAnerkennung |
+            Thema::AsylWiderruf |
+            Thema::AsylUntaetigkeit => 0,
+            _ => gkg_geb(streitwert_v),
+        }
     }
 
     pub fn streitwert_v(&self) -> f64 {
