@@ -101,6 +101,11 @@ async function main() {
     });
     const h1_3100_13 = document.getElementById("h1_3100_13");
     const h1_3100_49 = document.getElementById("h1_3100_49");
+    const h1_3101 = document.getElementById("h1_3101");
+    h1_3101.addEventListener("change", (event) => {
+        mpkr.set_h1_3101(event.target.checked);
+        update();
+    })
 
     const instanz_v1 = document.getElementById("instanz_v1");
     instanz_v1.addEventListener("change", (event) => {
@@ -164,6 +169,7 @@ async function main() {
                 h1_3100.checked = mpkr.h1_3100();
                 h1_3100_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_13()) + " EUR</label>";
                 h1_3100_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_49()) + " EUR</label>";
+                h1_3101.checked = mpkr.h1_3101();
                 bs_instanz_h1.show();
             } else {
                 bs_instanz_h1.hide();
@@ -239,7 +245,6 @@ async function main() {
     }
 
     update();
-
 }
 
 main();

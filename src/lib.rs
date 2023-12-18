@@ -148,8 +148,6 @@ pub struct Mpkr {
     instanz_h2: bool,
     instanz_h3: bool,
     h1_3100: bool,
-    h1_verfgeb13: f64,
-    h1_verfgeb49: f64,
     h1_3101: bool,
     h1_anrechnung: bool,
     h1_3104: bool,
@@ -262,8 +260,6 @@ impl Mpkr {
         let instanz_h2 = false;
         let instanz_h3 = false;
         let h1_3100 = true;
-        let h1_verfgeb13 = 1.3 * rvg13_geb_h as f64;
-        let h1_verfgeb49 = 1.3 * rvg49_geb_h as f64;
         let h1_3101 = false;
         let h1_anrechnung = false;
         let h1_3104 = true;
@@ -273,8 +269,8 @@ impl Mpkr {
         let h1_pauschale = 20.0;
         let h1_7000ua = false;
         let h1_auslagen = 0.0;
-        let summe_rvg13_h1 = h1_verfgeb13 + h1_termgeb13 + h1_pauschale + h1_auslagen;
-        let summe_rvg49_h1 = h1_verfgeb49 + h1_termgeb49 + h1_pauschale + h1_pauschale;
+        let summe_rvg13_h1 = (1.3 * rvg13_geb_h as f64) + h1_termgeb13 + h1_pauschale + h1_auslagen;
+        let summe_rvg49_h1 = (1.3 * rvg49_geb_h as f64) + h1_termgeb49 + h1_pauschale + h1_pauschale;
         let h1_5110 = true;
         let h1_verf = 3.0 * gkg_geb_h as f64;
         let h1_5111 = false;
@@ -343,8 +339,8 @@ impl Mpkr {
             instanz_h2,
             instanz_h3,
             h1_3100,
-            h1_verfgeb13,
-            h1_verfgeb49,
+            //h1_verfgeb13,
+            //h1_verfgeb49,
             h1_3101,
             h1_anrechnung,
             h1_3104,
@@ -579,11 +575,21 @@ impl Mpkr {
     }
 
     pub fn h1_3100_13(&self) -> f64 {
-        self.h1_verfgeb13
+        if self.h1_3101 { return 0.8 * self.rvg13_geb_h as f64 }
+        1.3 * self.rvg13_geb_h as f64
     }
 
     pub fn h1_3100_49(&self) -> f64 {
-        self.h1_verfgeb49
+        if self.h1_3101 { return 0.8 * self.rvg49_geb_h as f64 }
+        1.3 * self.rvg49_geb_h as f64
+    }
+
+    pub fn set_h1_3101(&mut self, i: bool) {
+        self.h1_3101 = i;
+    }
+
+    pub fn h1_3101(&self) -> bool {
+        self.h1_3101
     }
 
     pub fn set_instanz_v1(&mut self, i: bool) {
