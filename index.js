@@ -94,6 +94,14 @@ async function main() {
         update();
     });
 
+    const h1_3100 = document.getElementById("h1_3100");
+    h1_3100.addEventListener("change", (event) => {
+        mpkr.set_h1_3100(event.target.checked);
+        update();
+    });
+    const h1_3100_13 = document.getElementById("h1_3100_13");
+    const h1_3100_49 = document.getElementById("h1_3100_49");
+
     const instanz_v1 = document.getElementById("instanz_v1");
     instanz_v1.addEventListener("change", (event) => {
         mpkr.set_instanz_v1(event.target.checked);
@@ -153,6 +161,9 @@ async function main() {
             instanz_h2.checked = mpkr.instanz_h2();
             instanz_h3.checked = mpkr.instanz_h3();
             if (mpkr.instanz_h1()) {
+                h1_3100.checked = mpkr.h1_3100();
+                h1_3100_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_13()) + " EUR</label>";
+                h1_3100_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_49()) + " EUR</label>";
                 bs_instanz_h1.show();
             } else {
                 bs_instanz_h1.hide();
@@ -167,7 +178,7 @@ async function main() {
             } else {
                 bs_instanz_h3.hide();
             }
-            l_summe_rvg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg_h()) + " EUR</label>"
+            l_summe_rvg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_h()) + " EUR</label>"
             bs_row_summe_rvg_h.show();
             l_summe_gkg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h()) + " EUR</label>"
             bs_row_summe_gkg_h.show();
@@ -195,9 +206,9 @@ async function main() {
             } else {
                 bs_instanz_v2.hide();
             }
-            l_summe_rvg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg_v()) + " EUR</label>"
+            l_summe_rvg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_v()) + " EUR</label>"
             bs_row_summe_rvg_v.show();
-            l_summe_gkg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg_v()) + " EUR</label>"
+            l_summe_gkg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v()) + " EUR</label>"
             bs_row_summe_gkg_v.show();
         } else {
             bs_div_streitwert_v.hide();

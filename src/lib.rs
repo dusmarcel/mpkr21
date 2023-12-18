@@ -147,13 +147,60 @@ pub struct Mpkr {
     instanz_h1: bool,
     instanz_h2: bool,
     instanz_h3: bool,
+    h1_3100: bool,
+    h1_verfgeb13: f64,
+    h1_verfgeb49: f64,
+    h1_3101: bool,
+    h1_anrechnung: bool,
+    h1_3104: bool,
+    h1_termgeb13: f64,
+    h1_termgeb49: f64,
+    h1_7002: bool,
+    h1_pauschale: f64,
+    h1_7000ua: bool,
+    h1_auslagen: f64,
+    summe_rvg13_h1: f64,
+    summe_rvg49_h1: f64,
+    h1_5110: bool,
+    h1_verf: f64,
+    h1_5111: bool,
+    summe_gkg_h1: f64,
+    summe_rvg13_h2: f64,
+    summe_rvg49_h2: f64,
+    summe_gkg_h2: f64,
+    summe_rvg13_h3: f64,
+    summe_rvg49_h3: f64,
+    summe_gkg_h3: f64,    
     instanz_v1: bool,
     instanz_v2: bool,
-    summe_rvg_h: f64,
+    v1_3100: bool,
+    v1_verfgeb13: f64,
+    v1_verfgeb49: f64,
+    v1_3101: bool,
+    v1_3104: bool,
+    v1_termgeb13: f64,
+    v1_termgeb49: f64,
+    v1_7002: bool,
+    v1_pauschale: f64,
+    v1_7000ua: bool,
+    v1_auslagen: f64,
+    summe_rvg13_v1: f64,
+    summe_rvg49_v1: f64,
+    v1_5210: bool,
+    v1_verf: f64,
+    v1_5211: bool,
+    summe_gkg_v1: f64,
+    summe_rvg13_v2: f64,
+    summe_rvg49_v2: f64,
+    summe_gkg_v2: f64,
+    summe_rvg13_h: f64,
+    summe_rvg49_h: f64,
     summe_gkg_h: f64,
-    summe_rvg_v: f64,
+    summe_rvg13_v: f64,
+    summe_rvg49_v: f64,
     summe_gkg_v: f64,
     summe_netto: f64,
+    summe49: f64,
     steuersatz: u32,
     umsatzsteuer: f64,
     summe_brutto: f64,
@@ -214,13 +261,60 @@ impl Mpkr {
         let instanz_h1 = true;
         let instanz_h2 = false;
         let instanz_h3 = false;
+        let h1_3100 = true;
+        let h1_verfgeb13 = 1.3 * rvg13_geb_h as f64;
+        let h1_verfgeb49 = 1.3 * rvg49_geb_h as f64;
+        let h1_3101 = false;
+        let h1_anrechnung = false;
+        let h1_3104 = true;
+        let h1_termgeb13 = 1.2 * rvg13_geb_h as f64;
+        let h1_termgeb49 = 1.2 * rvg49_geb_h as f64;
+        let h1_7002 = true;
+        let h1_pauschale = 20.0;
+        let h1_7000ua = false;
+        let h1_auslagen = 0.0;
+        let summe_rvg13_h1 = h1_verfgeb13 + h1_termgeb13 + h1_pauschale + h1_auslagen;
+        let summe_rvg49_h1 = h1_verfgeb49 + h1_termgeb49 + h1_pauschale + h1_pauschale;
+        let h1_5110 = true;
+        let h1_verf = 3.0 * gkg_geb_h as f64;
+        let h1_5111 = false;
+        let summe_gkg_h1 = h1_verf;
+        let summe_rvg13_h2 = 0.0;
+        let summe_rvg49_h2 = 0.0;
+        let summe_gkg_h2 = 0.0;
+        let summe_rvg13_h3 = 0.0;
+        let summe_rvg49_h3 = 0.0;
+        let summe_gkg_h3 = 0.0;
         let instanz_v1 = true;
         let instanz_v2 = false;
-        let summe_rvg_h = 0.0;
-        let summe_gkg_h = 0.0;
-        let summe_rvg_v = 0.0;
-        let summe_gkg_v = 0.0;
-        let summe_netto = 0.0;
+        let v1_3100 = true;
+        let v1_verfgeb13 = 1.3 * rvg13_geb_v as f64;
+        let v1_verfgeb49 = 1.3 * rvg49_geb_v as f64;
+        let v1_3101 = false;
+        let v1_3104 = false;
+        let v1_termgeb13 = 1.2 * rvg13_geb_v as f64;
+        let v1_termgeb49 = 1.2 * rvg49_geb_v as f64;
+        let v1_7002 = true;
+        let v1_pauschale = 20.0;
+        let v1_7000ua = false;
+        let v1_auslagen = 0.0;
+        let summe_rvg13_v1 = v1_verfgeb13 + v1_termgeb13 + v1_pauschale + v1_auslagen;
+        let summe_rvg49_v1 = v1_verfgeb49 + v1_termgeb49 + v1_pauschale + v1_auslagen;
+        let v1_5210 = true;
+        let v1_verf = 3.0 * gkg_geb_v as f64;
+        let v1_5211 = false;
+        let summe_gkg_v1 = v1_verf;
+        let summe_rvg13_v2 = 0.0;
+        let summe_rvg49_v2 = 0.0;
+        let summe_gkg_v2 = 0.0;
+        let summe_rvg13_h = summe_rvg13_h1 + summe_rvg13_h2 + summe_rvg13_h3;
+        let summe_rvg49_h = summe_rvg49_h1 + summe_rvg49_h2 + summe_rvg49_h3;
+        let summe_gkg_h = summe_gkg_h1 + summe_gkg_h2 + summe_gkg_h3;
+        let summe_rvg13_v = summe_rvg13_v1 + summe_rvg13_v2;
+        let summe_rvg49_v = summe_rvg49_v1 + summe_rvg49_v2;
+        let summe_gkg_v = summe_gkg_v1 + summe_gkg_v2;
+        let summe_netto = summe_rvg13_h + summe_rvg13_v;
+        let summe49 = summe_rvg49_h + summe_rvg49_v;
         let steuersatz = 19;
         let umsatzsteuer = summe_netto / 100.0 * (steuersatz as f64);
         let summe_brutto = summe_netto + umsatzsteuer;
@@ -248,13 +342,60 @@ impl Mpkr {
             instanz_h1,
             instanz_h2,
             instanz_h3,
+            h1_3100,
+            h1_verfgeb13,
+            h1_verfgeb49,
+            h1_3101,
+            h1_anrechnung,
+            h1_3104,
+            h1_termgeb13,
+            h1_termgeb49,
+            h1_7002,
+            h1_pauschale,
+            h1_7000ua,
+            h1_auslagen,
+            summe_rvg13_h1,
+            summe_rvg49_h1,
+            h1_5110,
+            h1_verf,
+            h1_5111,
+            summe_gkg_h1,
+            summe_rvg13_h2,
+            summe_rvg49_h2,
+            summe_gkg_h2,
+            summe_rvg13_h3,
+            summe_rvg49_h3,
+            summe_gkg_h3,
             instanz_v1,
             instanz_v2,
-            summe_rvg_h,
+            v1_3100,
+            v1_verfgeb13,
+            v1_verfgeb49,
+            v1_3101,
+            v1_3104,
+            v1_termgeb13,
+            v1_termgeb49,
+            v1_7002,
+            v1_pauschale,
+            v1_7000ua,
+            v1_auslagen,
+            summe_rvg13_v1,
+            summe_rvg49_v1,
+            v1_5210,
+            v1_verf,
+            v1_5211,
+            summe_gkg_v1,
+            summe_rvg13_v2,
+            summe_rvg49_v2,
+            summe_gkg_v2,
+            summe_rvg13_h,
+            summe_rvg49_h,
             summe_gkg_h,
-            summe_rvg_v,
+            summe_rvg13_v,
+            summe_rvg49_v,
             summe_gkg_v,
             summe_netto,
+            summe49,
             steuersatz,
             umsatzsteuer,
             summe_brutto,
@@ -429,6 +570,22 @@ impl Mpkr {
         self.instanz_h3
     }
 
+    pub fn set_h1_3100(&mut self, i: bool) {
+        self.h1_3100 = i;
+    }
+
+    pub fn h1_3100(&self) -> bool {
+        self.h1_3100
+    }
+
+    pub fn h1_3100_13(&self) -> f64 {
+        self.h1_verfgeb13
+    }
+
+    pub fn h1_3100_49(&self) -> f64 {
+        self.h1_verfgeb49
+    }
+
     pub fn set_instanz_v1(&mut self, i: bool) {
         self.instanz_v1 = i;
     }
@@ -445,16 +602,24 @@ impl Mpkr {
         self.instanz_v2
     }
 
-    pub fn summe_rvg_h(&self) -> f64 {
-        self.summe_rvg_h
+    pub fn summe_rvg13_h(&self) -> f64 {
+        self.summe_rvg13_h
+    }
+
+    pub fn summe_rvg49_h(&self) -> f64 {
+        self.summe_rvg49_h
     }
 
     pub fn summe_gkg_h(&self) -> f64 {
         self.summe_gkg_h
     }
 
-    pub fn summe_rvg_v(&self) -> f64 {
-        self.summe_rvg_v
+    pub fn summe_rvg13_v(&self) -> f64 {
+        self.summe_rvg13_v
+    }
+
+    pub fn summe_rvg49_v(&self) -> f64 {
+        self.summe_rvg49_v
     }
 
     pub fn summe_gkg_v(&self) -> f64 {
