@@ -36,6 +36,17 @@
             wird auch nur ein Antrag auf vorläufigen Rechtsschutz gestellt. Deswegen kann man hier verschiedene Optionen
             wählen. Außerdem hängt die konkrete Höhe des Streitwerts auch von der Anzahl der Personen ab, die in einem
             Verfahren zusammengefasst werden.</p>
+            <p>
+              <label for="verfahren">Wähle aus, ob die Gebühren nur für ein Hauptsacheverfahren, nur für dein Verfahren
+                zum vorläufigen Rechtsschutz, oder für beides berechnet werden sollen.</label>
+            </p>
+            <p>
+              <select class="form-select" aria-label="Auswahl der Verfahrensart" id="verfahren">
+                <option value="0">Nur Hauptsacheverfahren</option>
+                <option value="1">Nur Verfahren zum vorläufigen Rechtsschutz</option>
+                <option value="2">Hauptsacheverfahren und Verfahren zum vorläufigen Rechtsschutz</option>
+              </select>
+            </p>
           <p>
             <label for="thema">Wähle ein Thema, dann versucht der Rechner, dir die passenden Streitwerte vorzuschlagen.
               Du kannst aber auch manuell selbst Streitwerte angeben.</label>
@@ -54,47 +65,68 @@
               <option value="8">Einbürgerung und Feststellung der Staatsangehörigkeit</option>
             </select>
           </p>
-          <p>
-            <label for="verfahren">Wähle aus, ob die Gebühren nur für ein Hauptsacheverfahren, nur für dein Verfahren
-              zum
-              vorläufigen Rechtsschutz, oder für beides berechnet werden sollen.</label>
-          </p>
-          <p>
-            <select class="form-select" aria-label="Auswahl der Verfahrensart" id="verfahren">
-              <option value="0">Nur Hauptsacheverfahren</option>
-              <option value="1">Nur Verfahren zum vorläufigen Rechtsschutz</option>
-              <option value="2">Hauptsacheverfahren und Verfahren zum vorläufigen Rechtsschutz</option>
-            </select>
-          </p>
-          <div class="row">
-            <div class="col">
+          <div class="row fw-bold">
+            <div class="col-2">
               <p><label for="anzahl">Anzahl Personen</label></p>
-              <p><input type="number" class="form-control" min="1" value="1" id="anzahl" data-bs-toggle="popover"
-                  data-bs-trigger="hover" title="Die Zahl der Personen"
-                  data-bs-content="Es geht um die Zahl der Personen, die in einem Verfahren zusammengefasst werden. Das trifft beispielsweise häufig auf Eheleute oder Eltern mit minderjährigen Kindern zu. Volljährige Kinder, Geschwister und Partner*innen laufen hingegen regelmäßig in eigenen Verfahren. In diesem Falle hat man mehrere Verfahren mit entsprechend niedrigerer Anzahl von Personen bzw. nur einzeln Personen.">
-              </p>
             </div>
-            <div class="col">
-              <div id="div_streitwert" class="collapse">
-                <p><label for="streitwert">Streitwert Hauptsache</label></p>
-                <p>
+            <div class="col-3">
+              <p><label>Streitwerte</label></p>
+            </div>
+            <div class="col-2">
+              <p><label>Wertgebühr (§ 13 RVG)</label></p>
+            </div>
+            <div class="col-3">
+              <p><label>Wertgebühr (§ 49 RVG / Prozesskostenhilfe)</label></p>
+            </div>
+            <div class="col-2">
+              <p><label>Wertgebühr (GKG)</label></p>
+            </div>
+          </div>
+          <p><div class="row">
+            <div class="col-2"></div>
+            <div class="col-3" id="l_verfahren_1"><label>Hauptsache</label></div>
+            <div class="col"></div>
+          </div></p>
+          <div class="row">
+            <div class="col-2 d-grid align-items-center">
+              <input type="number" class="form-control" min="1" value="1" id="anzahl" data-bs-toggle="popover"
+                  data-bs-trigger="hover" title="Die Zahl der Personen"
+                  data-bs-content="Es geht um die Zahl der Personen, die in einem Verfahren zusammengefasst werden. Das trifft beispielsweise häufig auf Eheleute oder Eltern mit minderjährigen Kindern zu. Volljährige Kinder, Geschwister und Partner*innen laufen hingegen regelmäßig in eigenen Verfahren. In diesem Falle hat man mehrere Verfahren mit entsprechend niedrigerer Anzahl von Personen bzw. nur einzeln Personen.">           
+            </div>
+            <div class="col-3 d-grid align-items-center">
+              <div id="div_streitwert">
                 <div class="input-group">
                   <input type="text" class="form-control" value="5.000,00" id="streitwert">
                   <label class="input-group-text" for="streitwert">EUR</label>
                 </div>
-                </p>
               </div>
-              <div id="div_streitwert_v" class="collapse">
-                <p><label for="streitwert_v">Streitwert vorläufiger Rechtsschutz</label></p>
-                <p>
+            </div>
+            <div class="col-2 d-grid align-items-center" id="l_geb13_1"></div>
+            <div class="col-3 d-grid align-items-center" id="l_geb49_1"></div>
+            <div class="col-2 d-grid align-items-center" id="l_gkg_1"></div>
+            <div class="col-1"></div>
+          </div>
+          <div class="row collapse" id="div_l_streitwert_v"><p>
+            <div class="col-2"></div>
+            <div class="col-3">
+              <div>
+                <label for="streitwert_v">vorläufiger Rechtsschutz</label>
+              </div>
+            </div>
+            <div class="col"></div>
+          </p></div>
+        <div class="row collapse" id="div_streitwert_v">
+          <div class="col-2"></div>
+          <div class="col-3 d-grid align-items-center">
                 <div class="input-group">
                   <input type="text" class="form-control" value="2.500,00" id="streitwert_v">
                   <label class="input-group-text" for="streitwert_v">EUR</label>
                 </div>
-                </p>
-              </div>
-            </div>
           </div>
+          <div class="col-2 d-grid align-items-center" id="l_geb13_2"></div>
+          <div class="col-3 d-grid align-items-center" id="l_geb49_2"></div>
+          <div class="col-2 d-grid align-items-center" id="l_gkg_2"></div>
+        </div>
         </div>
 
         <div class="container border border-5 rounded p-4 m-4">
@@ -339,264 +371,12 @@ Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werd
 
           <div class="collapse" id="div_instanz_h2">
             <h3>2. Instanz</h3>
-            <!-- <p>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-2">Wertgebühr (§ 13 RVG)</div>
-                <div class="col-3">Wertgebühr (§ 49 RVG / Prozesskostenhilfe)</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_3100"></div>
-                <div class="col-4"><label for="h1_3100">Verfahrensgebühr, Nr. 3100</label></div>
-                <div class="col-2">1,3</div>
-                <div class="col-2" id="h1_3100_13"></div>
-                <div class="col-3" id="h1_3100_49"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3101"></div>
-                  <div class="col-4"><label for="h1_3101">Ermäßigte Verfahrensgebühr, Nr. 3101</label></div>
-                  <div class="col-2">0,8</div>
-                  <div class="col-5"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3104"></div>
-                  <div class="col-4"><label for="h1_3104">Terminsgebühr, Nr. 3104</label></div>
-                  <div class="col-2">1,2</div>
-                  <div class="col-2" id="h1_3104_13"></div>
-                  <div class="col-3" id="h1_3104_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_7002"></div>
-                  <div class="col-4"><label for="h1_7002">Auslagenpauschale, Nr. 7002</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2" id="h1_7002_13"></div>
-                  <div class="col-3" id="h1_7002_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe"></div>
-                  <div class="col-4"><label for="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">Sonstige Auslagen</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2">
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="auslagen_h1" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">
-                      <label class="input-group-text" for="auslagen_h1">EUR</label>
-                    </div>
-                  </div>
-                </div>
-              </p>
-              <h4>Gerichtskostengesetz</h4>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-5">Wertgebühr</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_5110"></div>
-                <div class="col-4"><label for="h1_5110">Verfahren im Allgemeinen</label></div>
-                <div class="col-2">3,0</div>
-                <div class="col-5" id="l_h1_5110"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen."></div>
-                  <div class="col-4"><label for="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">Ermäßigte Gebühr</label></div>
-                  <div class="col-2" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">1,0</div>
-                  <div class="col-5"></div>
-                </div>
-              </p> -->
           </div>
 
           <!-- 3. Instanz des Hauptsacheverfahrens -->
 
           <div class="collapse" id="div_instanz_h3">
             <h3>3. Instanz</h3>
-            <!-- <p>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-2">Wertgebühr (§ 13 RVG)</div>
-                <div class="col-3">Wertgebühr (§ 49 RVG / Prozesskostenhilfe)</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_3100"></div>
-                <div class="col-4"><label for="h1_3100">Verfahrensgebühr, Nr. 3100</label></div>
-                <div class="col-2">1,3</div>
-                <div class="col-2" id="h1_3100_13"></div>
-                <div class="col-3" id="h1_3100_49"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3101"></div>
-                  <div class="col-4"><label for="h1_3101">Ermäßigte Verfahrensgebühr, Nr. 3101</label></div>
-                  <div class="col-2">0,8</div>
-                  <div class="col-5"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3104"></div>
-                  <div class="col-4"><label for="h1_3104">Terminsgebühr, Nr. 3104</label></div>
-                  <div class="col-2">1,2</div>
-                  <div class="col-2" id="h1_3104_13"></div>
-                  <div class="col-3" id="h1_3104_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_7002"></div>
-                  <div class="col-4"><label for="h1_7002">Auslagenpauschale, Nr. 7002</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2" id="h1_7002_13"></div>
-                  <div class="col-3" id="h1_7002_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe"></div>
-                  <div class="col-4"><label for="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">Sonstige Auslagen</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2">
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="auslagen_h1" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">
-                      <label class="input-group-text" for="auslagen_h1">EUR</label>
-                    </div>
-                  </div>
-                </div>
-              </p>
-              <h4>Gerichtskostengesetz</h4>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-5">Wertgebühr</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_5110"></div>
-                <div class="col-4"><label for="h1_5110">Verfahren im Allgemeinen</label></div>
-                <div class="col-2">3,0</div>
-                <div class="col-5" id="l_h1_5110"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen."></div>
-                  <div class="col-4"><label for="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">Ermäßigte Gebühr</label></div>
-                  <div class="col-2" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">1,0</div>
-                  <div class="col-5"></div>
-                </div>
-              </p> -->
           </div>
 
           <h3>Summen</h3>
@@ -781,132 +561,6 @@ Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werd
 
           <div class="collapse" id="div_instanz_v2">
             <h3>2. Instanz</h3>
-            <!-- <p>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-2">Wertgebühr (§ 13 RVG)</div>
-                <div class="col-3">Wertgebühr (§ 49 RVG / Prozesskostenhilfe)</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_3100"></div>
-                <div class="col-4"><label for="h1_3100">Verfahrensgebühr, Nr. 3100</label></div>
-                <div class="col-2">1,3</div>
-                <div class="col-2" id="h1_3100_13"></div>
-                <div class="col-3" id="h1_3100_49"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3101"></div>
-                  <div class="col-4"><label for="h1_3101">Ermäßigte Verfahrensgebühr, Nr. 3101</label></div>
-                  <div class="col-2">0,8</div>
-                  <div class="col-5"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_3104"></div>
-                  <div class="col-4"><label for="h1_3104">Terminsgebühr, Nr. 3104</label></div>
-                  <div class="col-2">1,2</div>
-                  <div class="col-2" id="h1_3104_13"></div>
-                  <div class="col-3" id="h1_3104_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_7002"></div>
-                  <div class="col-4"><label for="h1_7002">Auslagenpauschale, Nr. 7002</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2" id="h1_7002_13"></div>
-                  <div class="col-3" id="h1_7002_49"></div>
-                </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe"></div>
-                  <div class="col-4"><label for="h1_auslagen" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">Sonstige Auslagen</label></div>
-                  <div class="col-2"></div>
-                  <div class="col-2">
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="auslagen_h1" data-bs-toggle="popover" data-bs-trigger="hover" title="Sonstige Auslagen" data-bs-content="Zum Beispiel:
-  7000 Pauschale für die Herstellung und Überlassung von Dokumenten:
-  für Kopien und Ausdrucke
-  für die ersten 50 abzurechnenden Seiten je Seite 0,50 EUR
-  für jede weitere Seite 0,15 EUR
-  für die ersten 50 abzurechnenden Seiten in Farbe je Seite 1,00 EUR
-  für jede weitere Seite in Farbe 0,30 EUR
-  7003 Fahrtkosten für eine Geschäftsreise bei Benutzung eines eigenen Kraftfahrzeugs für jeden gefahrenen Kilometer 0,42 EUR.
-  Die Umsatzsteuer (Nr. 7008) VV RVG wird unten, unter „Summe“ berechnet.
-  7004 Fahrtkosten für eine Geschäftsreise bei Benutzung eines anderen Verkehrsmittels, soweit sie angemessen sind in voller Höhe
-  7005 Tage- und Abwesenheitsgeld bei einer Geschäftsreise
-  1. von nicht mehr als 4 Stunden 30,00 EUR
-  2. von mehr als 4 bis 8 Stunden 50,00 EUR
-  3. von mehr als 8 Stunden 80,00 EUR
-  Bei Auslandsreisen kann zu diesen Beträgen ein Zuschlag von 50 % berechnet werden.
-  7006 Sonstige Auslagen (z.B. Hotel) anlässlich einer Geschäftsreise, soweit sie angemessen sind in voller Höhe">
-                      <label class="input-group-text" for="auslagen_h1">EUR</label>
-                    </div>
-                  </div>
-                </div>
-              </p>
-              <h4>Gerichtskostengesetz</h4>
-              <div class="row fw-bold">
-                <div class="col-1"></div>
-                <div class="col-4">Gebührentatbestand und Nummer</div>
-                <div class="col-2">Gebührensatz</div>
-                <div class="col-5">Wertgebühr</div>
-              </div>
-              </p>
-              <p>
-              <div class="row">
-                <div class="col-1"><input type="checkbox" id="h1_5110"></div>
-                <div class="col-4"><label for="h1_5110">Verfahren im Allgemeinen</label></div>
-                <div class="col-2">3,0</div>
-                <div class="col-5" id="l_h1_5110"></div>
-              </div>
-              </p>
-              <p>
-                <div class="row">
-                  <div class="col-1"><input type="checkbox" id="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen."></div>
-                  <div class="col-4"><label for="h1_5111" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">Ermäßigte Gebühr</label></div>
-                  <div class="col-2" data-bs-toggle="popover" data-bs-trigger="hover" title="Ermäßigung der Gebühr Nr. 5110" data-bs-content="Eine solche Ermäßigung tritt beispielsweise in den meisten Fällen ein, wenn die Klage zurückgenommen wird, oder wenn beide Parteien das Verfahren übereinstimmend für erledigt erklären und sich untereinander auf die Verteilung der Kosten verständigen.">1,0</div>
-                  <div class="col-5"></div>
-                </div>
-              </p> -->
           </div>
 
           <h3>Summen</h3>

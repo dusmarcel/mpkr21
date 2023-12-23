@@ -26,19 +26,30 @@ async function main() {
         update();
     });
 
-    const bs_div_streitwert = new bootstrap.Collapse("#div_streitwert", { toggle: false });
+    const l_verfahren_1 = document.getElementById("l_verfahren_1");
     const streitwert = document.getElementById("streitwert");
     streitwert.addEventListener("change", (event) => {
-        mpkr.set_streitwert(parseFloat(event.target.value.replace(',', '.')));
+        if (mpkr.verfahren() == 1) // nur Verfahren zum vorläufigen Rechtsschutz
+            mpkr.set_streitwert_v(parseFloat(event.target.value.replace(',', '.')));
+        else // auch Hauptsacheverfahren
+            mpkr.set_streitwert(parseFloat(event.target.value.replace(',', '.')));
         update();
     });
 
+    const bs_div_l_streitwert_v = new bootstrap.Collapse("#div_l_streitwert_v", { toggle: false });
     const bs_div_streitwert_v = new bootstrap.Collapse("#div_streitwert_v", { toggle: false });
     const streitwert_v = document.getElementById("streitwert_v");
     streitwert_v.addEventListener("change", (event) => {
         mpkr.set_streitwert_v(parseFloat(event.target.value.replace(',', '.')));
         update();
     });
+
+    const l_geb13_1 = document.getElementById("l_geb13_1");
+    const l_geb49_1 = document.getElementById("l_geb49_1");
+    const l_gkg_1 = document.getElementById("l_gkg_1");
+    const l_geb13_2 = document.getElementById("l_geb13_2");
+    const l_geb49_2 = document.getElementById("l_geb49_2");
+    const l_gkg_2 = document.getElementById("l_gkg_2");
 
     const aussergerichtlich = document.getElementById("aussergerichtlich");
     aussergerichtlich.addEventListener("change", (event) => {
@@ -160,7 +171,10 @@ async function main() {
     const update = () => {
         if (mpkr.verfahren() != 1) { // Hauptsacheverfahren
             streitwert.value = formatNumber(mpkr.streitwert());
-            bs_div_streitwert.show();
+            l_verfahren_1.innerHTML = "<label>Hauptsache</label>";
+            l_geb13_1.innerHTML = "<label>" + formatNumber(mpkr.rvg13_geb_h()) + " EUR</label>";
+            l_geb49_1.innerHTML = "<label>" + formatNumber(mpkr.rvg49_geb_h()) + " EUR</label>";
+            l_gkg_1.innerHTML = "<label>" + formatNumber(mpkr.gkg_geb_h()) + " EUR</label>";
             bs_hauptsache.show();
             instanz_h1.checked = mpkr.instanz_h1();
             instanz_h2.checked = mpkr.instanz_h2();
@@ -188,8 +202,14 @@ async function main() {
             bs_row_summe_rvg_h.show();
             l_summe_gkg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h()) + " EUR</label>"
             bs_row_summe_gkg_h.show();
-        } else {
-            bs_div_streitwert.hide();
+        } else { // nur Verfahren zum vorläufigen Rechtsschutz
+            bs_div_l_streitwert_v.hide();
+            bs_div_streitwert_v.hide();
+            l_verfahren_1.innerHTML = "<label>vorläufiger Rechtsschutz</label>"
+            streitwert.value = formatNumber(mpkr.streitwert_v());
+            l_geb13_1.innerHTML = "<label>" + formatNumber(mpkr.rvg13_geb_v()) + " EUR</label>";
+            l_geb49_1.innerHTML = "<label>" + formatNumber(mpkr.rvg49_geb_v()) + " EUR</label>";
+            l_gkg_1.innerHTML = "<label>" + formatNumber(mpkr.gkg_geb_v()) + " EUR</label>";
             bs_hauptsache.hide();
             aussergerichtlich.checked = false;
             bs_row_summe_rvg_h.hide();
@@ -197,8 +217,14 @@ async function main() {
         }
 
         if (mpkr.verfahren() != 0) { // Verfahren zum vorläufigen Rechtsschutz
-            streitwert_v.value = formatNumber(mpkr.streitwert_v());
-            bs_div_streitwert_v.show();
+            if (mpkr.verfahren() == 2) { // beide Verfahren
+                bs_div_l_streitwert_v.show();
+                bs_div_streitwert_v.show();
+                streitwert_v.value = formatNumber(mpkr.streitwert_v());
+                l_geb13_2.innerHTML = "<label>" + formatNumber(mpkr.rvg13_geb_v()) + " EUR</label>";
+                l_geb49_2.innerHTML = "<label>" + formatNumber(mpkr.rvg49_geb_v()) + " EUR</label>";
+                l_gkg_2.innerHTML = "<label>" + formatNumber(mpkr.gkg_geb_v()) + " EUR</label>";
+            }
             bs_vorlaeufig.show();
             instanz_v1.checked = mpkr.instanz_v1();
             instanz_v2.checked = mpkr.instanz_v2();
@@ -216,7 +242,8 @@ async function main() {
             bs_row_summe_rvg_v.show();
             l_summe_gkg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v()) + " EUR</label>"
             bs_row_summe_gkg_v.show();
-        } else {
+        } else { // nur Hauptsacheverfahren
+            bs_div_l_streitwert_v.hide();
             bs_div_streitwert_v.hide();
             bs_vorlaeufig.hide();
             bs_row_summe_rvg_v.hide();
