@@ -153,8 +153,8 @@ pub struct Mpkr {
     h1_3101: bool,
     h1_anrechnung: bool,
     h1_3104: bool,
-    h1_termgeb13: f64,
-    h1_termgeb49: f64,
+    h1_3104_13: f64,
+    h1_3104_49: f64,
     h1_7002: bool,
     h1_pauschale: f64,
     h1_7000ua: bool,
@@ -172,6 +172,8 @@ pub struct Mpkr {
     summe_gkg_h3: f64,    
     instanz_v1: bool,
     instanz_v2: bool,
+    summe_rvg13_v1: f64,
+    summe_rvg49_v1: f64,
     summe_gkg_v1: f64,
     summe_rvg13_v2: f64,
     summe_rvg49_v2: f64,
@@ -183,7 +185,6 @@ pub struct Mpkr {
     summe_rvg49_v: f64,
     summe_gkg_v: f64,
     summe_netto: f64,
-    //summe49: f64,
     steuersatz: u32,
     umsatzsteuer: f64,
     summe_brutto: f64,
@@ -214,33 +215,54 @@ impl Mpkr {
 
     fn set_summe_netto_auto(&mut self) {
         let mut summe = 0.0;
-        if self.aussergerichtlich { summe += self.summe_aussergerichtlich; }
-        //if self.instanz_h1 { summe += self.summe_rvg13_h1; }
-        summe += self.summe_rvg13_h;
+        if self.aussergerichtlich { summe = self.summe_aussergerichtlich; }
+        match  self.verfahren {
+            Verfahren::Hauptsache => summe += self.summe_rvg13_h,
+            Verfahren::Vorlaeufig => summe = self.summe_rvg13_v,
+            Verfahren::Beides => summe += self.summe_rvg13_h + self.summe_rvg13_v,
+        }
         self.set_summe_netto(summe);
     }
 
-    fn set_summen_h1_auto(&mut self) {
-        let mut summe_rvg13 = 0.0;
-        let mut summe_rvg49 = 0.0;
-        let mut summe_gkg = 0.0;
+    fn set_h1_auto(&mut self) {
         if self.h1_3101 {
-            summe_rvg13 += 0.8 * self.rvg13_geb_h() as f64;
-            summe_rvg49 += 0.8 * self.rvg49_geb_h() as f64;
+            self.set_h1_3100_13(0.8 * self.rvg13_geb_h as f64);
+            self.set_h1_3100_49(0.8 * self.rvg49_geb_h as f64);
         } else if self.h1_3100 {
-            summe_rvg13 += 1.3 * self.rvg13_geb_h() as f64;
-            summe_rvg49 += 1.3 * self.rvg49_geb_h() as f64;
+            self.set_h1_3100_13(1.3 * self.rvg13_geb_h as f64);
+            self.set_h1_3100_49(1.3 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h1_3100_13(0.0);
+            self.set_h1_3100_49(0.0);
         }
-        if self.h1_5111 {
-            summe_gkg += self.gkg_geb_h() as f64;
-        } else if self.h1_5110 {
-            summe_gkg += 3.0 * self.gkg_geb_h() as f64;
+        if self.h1_3104 {
+            self.set_h1_3104_13(1.2 * self.rvg13_geb_h as f64);
+            self.set_h1_3104_49(1.2 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h1_3104_13(0.0);
+            self.set_h1_3104_49(0.0);            
         }
-        self.set_summe_rvg13_h1(summe_rvg13);
-        self.set_summe_rvg49_h1(summe_rvg49);
-        self.set_summe_gkg_h1(summe_gkg);
+        if self.h1_7002 {
+            self.h1_pauschale = (self.h1_3100_13() + self.h1_3104_13()) * 0.2;
+            if self.h1_pauschale > 20.0 { self.h1_pauschale = 20.0; }
+        } else {
+            self.h1_pauschale = 0.0;
+        }
+        self.set_summe_rvg13_h1(self.h1_3100_13() + self.h1_3104_13() + self.h1_pauschale);
+        self.set_summe_rvg49_h1(self.h1_3100_49() + self.h1_3104_49() + self.h1_pauschale);
+        if self.h1_7000ua() {
+            self.set_summe_rvg13_h1(self.summe_rvg13_h1 + self.h1_auslagen());
+            self.set_summe_rvg49_h1(self.summe_rvg49_h1 + self.h1_auslagen());
+        }
         self.set_summe_rvg13_h_auto();
         self.set_summe_rvg49_h_auto();
+        if self.h1_5111 {
+            self.set_summe_gkg_h1(1.0 * self.gkg_geb_h() as f64);
+        } else if self.h1_5110 {
+            self.set_summe_gkg_h1(3.0 * self.gkg_geb_h() as f64);
+        } else {
+            self.set_summe_gkg_h1(0.0);
+        }
         self.set_summe_gkg_h_auto();
     }
 
@@ -266,6 +288,27 @@ impl Mpkr {
         if self.instanz_h2 { summe += self.summe_gkg_h2; }
         if self.instanz_h3 { summe += self.summe_gkg_h3; }
         self.set_summe_gkg_h(summe);
+    }
+
+    fn set_summe_rvg13_v_auto(&mut self) {
+        let mut summe = 0.0;
+        if self.instanz_v1 { summe += self.summe_rvg13_v1; }
+        if self.instanz_v2 { summe += self.summe_rvg13_v2; }
+        self.set_summe_rvg13_v(summe);
+    }
+
+    fn set_summe_rvg49_v_auto(&mut self) {
+        let mut summe = 0.0;
+        if self.instanz_v1 { summe += self.summe_rvg49_v1; }
+        if self.instanz_v2 { summe += self.summe_rvg49_v2; }
+        self.set_summe_rvg49_v(summe);
+    }
+
+    fn set_summe_gkg_v_auto(&mut self) {
+        let mut summe = 0.0;
+        if self.instanz_v1 { summe += self.summe_gkg_v1; }
+        if self.instanz_v2 { summe += self.summe_gkg_v2; }
+        self.set_summe_gkg_v(summe);
     }
 }
 
@@ -300,14 +343,14 @@ impl Mpkr {
         let h1_3101 = false;
         let h1_anrechnung = false;
         let h1_3104 = true;
-        let h1_termgeb13 = 1.2 * rvg13_geb_h as f64;
-        let h1_termgeb49 = 1.2 * rvg49_geb_h as f64;
+        let h1_3104_13 = 1.2 * rvg13_geb_h as f64;
+        let h1_3104_49 = 1.2 * rvg49_geb_h as f64;
         let h1_7002 = true;
         let h1_pauschale = 20.0;
         let h1_7000ua = false;
         let h1_auslagen = 0.0;
-        let summe_rvg13_h1 = (1.3 * rvg13_geb_h as f64) + h1_termgeb13 + h1_pauschale + h1_auslagen;
-        let summe_rvg49_h1 = (1.3 * rvg49_geb_h as f64) + h1_termgeb49 + h1_pauschale + h1_pauschale;
+        let summe_rvg13_h1 = h1_3100_13 + h1_3104_13 + h1_pauschale + h1_auslagen;
+        let summe_rvg49_h1 = h1_3100_49 + h1_3104_49 + h1_pauschale + h1_pauschale;
         let h1_5110 = true;
         let h1_5111 = false;
         let summe_gkg_h1 = 3.0 * gkg_geb_h as f64;
@@ -332,7 +375,6 @@ impl Mpkr {
         let summe_rvg49_v = summe_rvg49_v1 + summe_rvg49_v2;
         let summe_gkg_v = summe_gkg_v1 + summe_gkg_v2;
         let summe_netto = summe_rvg13_h + summe_rvg13_v;
-        //let summe49 = summe_rvg49_h + summe_rvg49_v;
         let steuersatz = 19;
         let umsatzsteuer = summe_netto / 100.0 * (steuersatz as f64);
         let summe_brutto = summe_netto + umsatzsteuer;
@@ -366,8 +408,8 @@ impl Mpkr {
             h1_3101,
             h1_anrechnung,
             h1_3104,
-            h1_termgeb13,
-            h1_termgeb49,
+            h1_3104_13,
+            h1_3104_49,
             h1_7002,
             h1_pauschale,
             h1_7000ua,
@@ -385,6 +427,8 @@ impl Mpkr {
             summe_gkg_h3,
             instanz_v1,
             instanz_v2,
+            summe_rvg13_v1,
+            summe_rvg49_v1,
             summe_gkg_v1,
             summe_rvg13_v2,
             summe_rvg49_v2,
@@ -396,7 +440,6 @@ impl Mpkr {
             summe_rvg49_v,
             summe_gkg_v,
             summe_netto,
-            //summe49,
             steuersatz,
             umsatzsteuer,
             summe_brutto,
@@ -405,10 +448,6 @@ impl Mpkr {
         }
     }
     
-    //pub fn thema(self) -> u32 {
-    //    self.thema as u32
-    //}
-
     pub fn set_thema(&mut self, u_thema: u32) {
         self.thema = match u_thema {
             0 => Thema::AsylZulaessigkeit,
@@ -462,7 +501,7 @@ impl Mpkr {
             _ => gkg_geb(streitwert),
         };
         self.set_geschaeftsgebuehr(self.rvg13_geb_h as f64 * self.gebuehrensatz);
-        self.set_summen_h1_auto();
+        self.set_h1_auto();
     }
 
     pub fn streitwert(&self) -> f64 {
@@ -534,10 +573,9 @@ impl Mpkr {
     }
 
     pub fn set_geschaeftsgebuehr(&mut self, geschaeftsgebuehr: f64) {
-        let mut pauschale = geschaeftsgebuehr * 0.2;
-        if pauschale > 20.0 { pauschale = 20.0 };
         self.geschaeftsgebuehr = geschaeftsgebuehr;
-        self.set_pauschale_aussergerichtlich(pauschale);
+        self.set_pauschale_aussergerichtlich(geschaeftsgebuehr * 0.2);
+        if self.pauschale_aussergerichtlich() > 20.0 { self.set_pauschale_aussergerichtlich(20.0); }
         self.set_summe_aussergerichtlich(self.geschaeftsgebuehr() + self.pauschale_aussergerichtlich() + self.auslagen_aussergerichtlich());
     }
 
@@ -598,7 +636,7 @@ impl Mpkr {
 
     pub fn set_h1_3100(&mut self, i: bool) {
         self.h1_3100 = i;
-        self.set_summen_h1_auto();
+        self.set_h1_auto();
     }
 
     pub fn h1_3100(&self) -> bool {
@@ -612,35 +650,116 @@ impl Mpkr {
     pub fn h1_3100_13(&self) -> f64 {
         self.h1_3100_13
     }
+    pub fn set_h1_3100_49(&mut self, h1_3100_49 :f64) {
+        self.h1_3100_49 = h1_3100_49;
+    }
 
     pub fn h1_3100_49(&self) -> f64 {
         self.h1_3100_49
     }
 
-    pub fn set_h1_3100_49(&mut self, h1_3100_49 :f64) {
-        self.h1_3100_49 = h1_3100_49;
-    }
-
     pub fn set_h1_3101(&mut self, i: bool) {
         if i { self.set_h1_3100(true); }
         self.h1_3101 = i;
-        self.set_summen_h1_auto();
+        self.set_h1_auto();
     }
 
     pub fn h1_3101(&self) -> bool {
         self.h1_3101
     }
 
+    pub fn set_h1_3104(&mut self, i: bool) {
+        self.h1_3104 = i;
+        self.set_h1_auto();
+    }
+
+    pub fn h1_3104(&self) -> bool {
+        self.h1_3104
+    }
+
+    pub fn set_h1_3104_13(&mut self, h1_3104_13 :f64) {
+        self.h1_3104_13 = h1_3104_13;
+    }
+
+    pub fn h1_3104_13(&self) -> f64 {
+        self.h1_3104_13
+    }
+
+    pub fn set_h1_3104_49(&mut self, h1_3104_49 :f64) {
+        self.h1_3104_49 = h1_3104_49;
+    }
+
+    pub fn h1_3104_49(&self) -> f64 {
+        self.h1_3104_49
+    }
+
+    pub fn set_h1_7002(&mut self, i: bool) {
+        self.h1_7002 = i;
+        self.set_h1_auto();
+    }
+
+    pub fn h1_7002(&self) -> bool {
+        self.h1_7002
+    }
+
+    pub fn h1_pauschale(&self) -> f64 {
+        self.h1_pauschale
+    }
+
+    pub fn set_h1_7000ua(&mut self, i: bool) {
+        self.h1_7000ua = i;
+        self.set_h1_auto();
+    }
+
+    pub fn h1_7000ua(&self) -> bool {
+        self.h1_7000ua
+    }
+
+    pub fn set_h1_auslagen(&mut self, auslagen: f64) {
+        if auslagen > 0.0 { 
+            self.set_h1_7000ua(true);
+            self.h1_auslagen = auslagen;
+            self.set_h1_auto();
+        }
+    }
+
+    pub fn h1_auslagen(&self) -> f64 {
+        self.h1_auslagen
+    }
+
     pub fn set_summe_rvg13_h1(&mut self, summe_rvg13_h1: f64) {
         self.summe_rvg13_h1 = summe_rvg13_h1;
     }
 
-    pub fn set_summe_rvg49_h1 (&mut self, summe_rvg49_h1: f64) {
+    pub fn set_summe_rvg49_h1(&mut self, summe_rvg49_h1: f64) {
         self.summe_rvg49_h1 = summe_rvg49_h1;
     }
 
+    pub fn set_h1_5110(&mut self, i :bool) {
+        self.h1_5110 = i;
+        self.set_h1_auto();
+    }
+
+    pub fn h1_5110(&self) -> bool {
+        self.h1_5110
+    }
+
+    pub fn set_h1_5111(&mut self, i :bool) {
+        if i { self.set_h1_5110(true); }
+        self.h1_5111 = i;
+        self.set_h1_auto();
+    }
+
+    pub fn h1_5111(&self) -> bool {
+        self.h1_5111
+    }
+   
     pub fn set_summe_gkg_h1(&mut self, summe_gkg_h1: f64) {
         self.summe_gkg_h1 = summe_gkg_h1;
+    }
+
+    pub fn summe_gkg_h1(&self) -> f64 {
+        self.summe_gkg_h1
     }
 
     pub fn set_instanz_v1(&mut self, i: bool) {
@@ -661,6 +780,7 @@ impl Mpkr {
 
     pub fn set_summe_rvg13_h(&mut self, summe: f64) {
         self.summe_rvg13_h = summe;
+        self.set_summe_netto_auto();
     }
 
     pub fn summe_rvg13_h(&self) -> f64 {
@@ -677,22 +797,50 @@ impl Mpkr {
 
     pub fn set_summe_gkg_h(&mut self, summe: f64) {
         self.summe_gkg_h = summe;
+        match self.verfahren {
+            Verfahren::Hauptsache => self.set_summe_gkg(self.summe_gkg_h),
+            Verfahren::Vorlaeufig => self.set_summe_gkg(self.summe_gkg_v()),
+            Verfahren::Beides => self.set_summe_gkg(self.summe_gkg_h + self.summe_gkg_v()),
+        }
     }
     
     pub fn summe_gkg_h(&self) -> f64 {
         self.summe_gkg_h
     }
 
+    pub fn set_summe_rvg13_v(&mut self, summe: f64) {
+        self.summe_rvg13_v = summe;
+        self.set_summe_netto_auto();
+    }
+
     pub fn summe_rvg13_v(&self) -> f64 {
         self.summe_rvg13_v
+    }
+
+    pub fn set_summe_rvg49_v(&mut self, summe: f64) {
+        self.summe_rvg49_v = summe;
     }
 
     pub fn summe_rvg49_v(&self) -> f64 {
         self.summe_rvg49_v
     }
 
+    pub fn set_summe_gkg_v(&mut self, summe: f64) {
+        self.summe_gkg_v = summe;
+        match self.verfahren {
+            Verfahren::Hauptsache => self.set_summe_gkg(self.summe_gkg_h()),
+            Verfahren::Vorlaeufig => self.set_summe_gkg(self.summe_gkg_v),
+            Verfahren::Beides => self.set_summe_gkg(self.summe_gkg_h() + self.summe_gkg_v),
+        }
+    }
+
     pub fn summe_gkg_v(&self) -> f64 {
         self.summe_gkg_v
+    }
+
+    pub fn set_summe_gkg(&mut self, summe: f64) {
+        self.summe_gkg = summe;
+        self.set_summe_total(self.summe_gkg + self.summe_brutto());
     }
 
     pub fn summe_gkg(&self) -> f64 {
@@ -733,6 +881,10 @@ impl Mpkr {
 
     pub fn summe_brutto(&self) -> f64 {
         self.summe_brutto
+    }
+
+    pub fn set_summe_total(&mut self, summe: f64) {
+        self.summe_total = summe;
     }
 
     pub fn summe_total(&self) -> f64 {

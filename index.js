@@ -116,7 +116,42 @@ async function main() {
     h1_3101.addEventListener("change", (event) => {
         mpkr.set_h1_3101(event.target.checked);
         update();
-    })
+    });
+    const h1_3104 = document.getElementById("h1_3104");
+    h1_3104.addEventListener("change", (event) => {
+        mpkr.set_h1_3104(event.target.checked);
+        update();
+    });
+    const h1_3104_13 = document.getElementById("h1_3104_13");
+    const h1_3104_49 = document.getElementById("h1_3104_49");
+    const h1_7002 = document.getElementById("h1_7002");
+    h1_7002.addEventListener("change", (event) => {
+        mpkr.set_h1_7002(event.target.checked);
+        update();
+    });
+    const h1_7002_13 = document.getElementById("h1_7002_13");
+    const h1_7002_49 = document.getElementById("h1_7002_49");
+    const h1_7000ua = document.getElementById("h1_7000ua");
+    h1_7000ua.addEventListener("change", (event) => {
+        mpkr.set_h1_7000ua(event.target.checked);
+        update();
+    });
+    const h1_auslagen = document.getElementById("h1_auslagen");
+    h1_auslagen.addEventListener("change", (event) => {
+        mpkr.set_h1_auslagen(parseFloat(event.target.value.replace(',', '.')));
+        update();
+    });
+    const h1_5110 = document.getElementById("h1_5110");
+    h1_5110.addEventListener("change", (event) => {
+        mpkr.set_h1_5110(event.target.checked);
+        update();
+    });
+    const l_h1_5110 = document.getElementById("l_h1_5110");
+    const h1_5111 = document.getElementById("h1_5111");
+    h1_5111.addEventListener("change", (event) => {
+        mpkr.set_h1_5111(event.target.checked);
+        update();
+    });
 
     const instanz_v1 = document.getElementById("instanz_v1");
     instanz_v1.addEventListener("change", (event) => {
@@ -192,6 +227,17 @@ async function main() {
                 h1_3100_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_13()) + " EUR</label>";
                 h1_3100_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_49()) + " EUR</label>";
                 h1_3101.checked = mpkr.h1_3101();
+                h1_3104.checked = mpkr.h1_3104();
+                h1_3104_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3104_13()) + " EUR</label>";
+                h1_3104_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3104_49()) + " EUR</label>";
+                h1_7002.checked = mpkr.h1_7002();
+                h1_7002_13.innerHTML = "<label>" + formatNumber(mpkr.h1_pauschale()) + " EUR</label>";
+                h1_7002_49.innerHTML = "<label>" + formatNumber(mpkr.h1_pauschale()) + " EUR</label>";  
+                h1_7000ua.checked = mpkr.h1_7000ua();
+                h1_auslagen.value = formatNumber(mpkr.h1_auslagen());
+                h1_5110.checked = mpkr.h1_5110();
+                l_h1_5110.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h1()) + " EUR</label>";
+                h1_5111.checked = mpkr.h1_5111();
                 bs_instanz_h1.show();
             } else {
                 bs_instanz_h1.hide();
