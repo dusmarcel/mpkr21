@@ -164,6 +164,54 @@ async function main() {
         update();
     });
 
+    const v1_3100 = document.getElementById("v1_3100");
+    v1_3100.addEventListener("change", (event) => {
+        mpkr.set_v1_3100(event.target.checked);
+        update();
+    });
+    const v1_3100_13 = document.getElementById("v1_3100_13");
+    const v1_3100_49 = document.getElementById("v1_3100_49");
+    const v1_3101 = document.getElementById("v1_3101");
+    v1_3101.addEventListener("change", (event) => {
+        mpkr.set_v1_3101(event.target.checked);
+        update();
+    });
+    const v1_3104 = document.getElementById("v1_3104");
+    v1_3104.addEventListener("change", (event) => {
+        mpkr.set_v1_3104(event.target.checked);
+        update();
+    });
+    const v1_3104_13 = document.getElementById("v1_3104_13");
+    const v1_3104_49 = document.getElementById("v1_3104_49");
+    const v1_7002 = document.getElementById("v1_7002");
+    v1_7002.addEventListener("change", (event) => {
+        mpkr.set_v1_7002(event.target.checked);
+        update();
+    });
+    const v1_7002_13 = document.getElementById("v1_7002_13");
+    const v1_7002_49 = document.getElementById("v1_7002_49");
+    const v1_7000ua = document.getElementById("v1_7000ua");
+    h1_7000ua.addEventListener("change", (event) => {
+        mpkr.set_v1_7000ua(event.target.checked);
+        update();
+    });
+    const v1_auslagen = document.getElementById("v1_auslagen");
+    v1_auslagen.addEventListener("change", (event) => {
+        mpkr.set_v1_auslagen(parseFloat(event.target.value.replace(',', '.')));
+        update();
+    });
+    const v1_5210 = document.getElementById("v1_5210");
+    v1_5210.addEventListener("change", (event) => {
+        mpkr.set_v1_5210(event.target.checked);
+        update();
+    });
+    const l_v1_5210 = document.getElementById("l_v1_5210");
+    const v1_5211 = document.getElementById("v1_5211");
+    v1_5211.addEventListener("change", (event) => {
+        mpkr.set_v1_5211(event.target.checked);
+        update();
+    });
+
     const bs_hauptsache = new bootstrap.Collapse("#hauptsache", { toggle: false });
     const bs_instanz_h1 = new bootstrap.Collapse("#div_instanz_h1", { toggle: false });
     const bs_instanz_h2 = new bootstrap.Collapse("#div_instanz_h2", { toggle: false });
@@ -286,6 +334,21 @@ async function main() {
             instanz_v1.checked = mpkr.instanz_v1();
             instanz_v2.checked = mpkr.instanz_v2();
             if (mpkr.instanz_v1()) {
+                v1_3100.checked = mpkr.v1_3100();
+                v1_3100_13.innerHTML = "<label>" + formatNumber(mpkr.v1_3100_13()) + " EUR</label>";
+                v1_3100_49.innerHTML = "<label>" + formatNumber(mpkr.v1_3100_49()) + " EUR</label>";
+                v1_3101.checked = mpkr.v1_3101();
+                v1_3104.checked = mpkr.v1_3104();
+                v1_3104_13.innerHTML = "<label>" + formatNumber(mpkr.v1_3104_13()) + " EUR</label>";
+                v1_3104_49.innerHTML = "<label>" + formatNumber(mpkr.v1_3104_49()) + " EUR</label>";
+                v1_7002.checked = mpkr.v1_7002();
+                v1_7002_13.innerHTML = "<label>" + formatNumber(mpkr.v1_pauschale()) + " EUR</label>";
+                v1_7002_49.innerHTML = "<label>" + formatNumber(mpkr.v1_pauschale()) + " EUR</label>";  
+                v1_7000ua.checked = mpkr.v1_7000ua();
+                v1_auslagen.value = formatNumber(mpkr.v1_auslagen());
+                v1_5210.checked = mpkr.v1_5210();
+                l_v1_5210.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v1()) + " EUR</label>";
+                v1_5211.checked = mpkr.v1_5211();
                 bs_instanz_v1.show();
             } else {
                 bs_instanz_v1.hide();
@@ -327,7 +390,7 @@ async function main() {
         summe_netto.innerHTML = "<label>" + formatNumber(mpkr.summe_netto()) + " EUR</label>";
         umsatzsteuer.innerHTML = "<label>" + formatNumber(mpkr.umsatzsteuer()) + " EUR</label>";
         summe_brutto.innerHTML = "<label>" + formatNumber(mpkr.summe_brutto()) + " EUR</label>";
-        l_summe_gkg.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h()) + " EUR</label>";
+        l_summe_gkg.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg()) + " EUR</label>";
         l_summe_total.innerHTML = "<h3>" + formatNumber(mpkr.summe_total()) + " EUR</h3>";
     }
 

@@ -172,8 +172,21 @@ pub struct Mpkr {
     summe_gkg_h3: f64,    
     instanz_v1: bool,
     instanz_v2: bool,
+    v1_3100: bool,
+    v1_3100_13: f64,
+    v1_3100_49: f64,
+    v1_3101: bool,
+    v1_3104: bool,
+    v1_3104_13: f64,
+    v1_3104_49: f64,
+    v1_7002: bool,
+    v1_pauschale: f64,
+    v1_7000ua: bool,
+    v1_auslagen: f64,
     summe_rvg13_v1: f64,
     summe_rvg49_v1: f64,
+    v1_5210: bool,
+    v1_5211: bool,
     summe_gkg_v1: f64,
     summe_rvg13_v2: f64,
     summe_rvg49_v2: f64,
@@ -266,6 +279,48 @@ impl Mpkr {
         self.set_summe_gkg_h_auto();
     }
 
+    fn set_v1_auto(&mut self) {
+        if self.v1_3101 {
+            self.set_v1_3100_13(0.8 * self.rvg13_geb_v as f64);
+            self.set_v1_3100_49(0.8 * self.rvg49_geb_v as f64);
+        } else if self.v1_3100 {
+            self.set_v1_3100_13(1.3 * self.rvg13_geb_v as f64);
+            self.set_v1_3100_49(1.3 * self.rvg49_geb_v as f64);
+        } else {
+            self.set_v1_3100_13(0.0);
+            self.set_v1_3100_49(0.0);
+        }
+        if self.v1_3104 {
+            self.set_v1_3104_13(1.2 * self.rvg13_geb_v as f64);
+            self.set_v1_3104_49(1.2 * self.rvg49_geb_v as f64);
+        } else {
+            self.set_v1_3104_13(0.0);
+            self.set_v1_3104_49(0.0);            
+        }
+        if self.v1_7002 {
+            self.v1_pauschale = (self.v1_3100_13() + self.v1_3104_13()) * 0.2;
+            if self.v1_pauschale > 20.0 { self.v1_pauschale = 20.0; }
+        } else {
+            self.v1_pauschale = 0.0;
+        }
+        self.set_summe_rvg13_v1(self.v1_3100_13() + self.v1_3104_13() + self.h1_pauschale);
+        self.set_summe_rvg49_v1(self.v1_3100_49() + self.v1_3104_49() + self.h1_pauschale);
+        if self.h1_7000ua() {
+            self.set_summe_rvg13_v1(self.summe_rvg13_v1 + self.v1_auslagen());
+            self.set_summe_rvg49_v1(self.summe_rvg49_v1 + self.v1_auslagen());
+        }
+        self.set_summe_rvg13_v_auto();
+        self.set_summe_rvg49_v_auto();
+        if self.v1_5211 {
+            self.set_summe_gkg_v1(0.5 * self.gkg_geb_v() as f64);
+        } else if self.v1_5210 {
+            self.set_summe_gkg_v1(1.5 * self.gkg_geb_v() as f64);
+        } else {
+            self.set_summe_gkg_v1(0.0);
+        }
+        self.set_summe_gkg_v_auto();
+    }
+
     fn set_summe_rvg13_h_auto(&mut self) {
         let mut summe = 0.0;
         if self.instanz_h1 { summe += self.summe_rvg13_h1; }
@@ -350,7 +405,7 @@ impl Mpkr {
         let h1_7000ua = false;
         let h1_auslagen = 0.0;
         let summe_rvg13_h1 = h1_3100_13 + h1_3104_13 + h1_pauschale + h1_auslagen;
-        let summe_rvg49_h1 = h1_3100_49 + h1_3104_49 + h1_pauschale + h1_pauschale;
+        let summe_rvg49_h1 = h1_3100_49 + h1_3104_49 + h1_pauschale + h1_auslagen;
         let h1_5110 = true;
         let h1_5111 = false;
         let summe_gkg_h1 = 3.0 * gkg_geb_h as f64;
@@ -362,9 +417,23 @@ impl Mpkr {
         let summe_gkg_h3 = 0.0;
         let instanz_v1 = true;
         let instanz_v2 = false;
-        let summe_rvg13_v1 = 0.0;
-        let summe_rvg49_v1 = 0.0;
-        let summe_gkg_v1 = 0.0;
+        let v1_3100 = true;
+        let v1_3100_13 = 1.3 * rvg13_geb_v as f64;
+        let v1_3100_49 = 1.3 * rvg49_geb_v as f64;
+        let v1_3101 = false;
+        let v1_anrechnung = false;
+        let v1_3104 = true;
+        let v1_3104_13 = 1.2 * rvg13_geb_v as f64;
+        let v1_3104_49 = 1.2 * rvg49_geb_v as f64;
+        let v1_7002 = true;
+        let v1_pauschale = 20.0;
+        let v1_7000ua = false;
+        let v1_auslagen = 0.0;
+        let summe_rvg13_v1 = v1_3100_13 + v1_3104_13 + v1_pauschale + h1_auslagen;
+        let summe_rvg49_v1 = v1_3100_49 + v1_3104_49 + v1_pauschale + v1_auslagen;
+        let v1_5210 = true;
+        let v1_5211 = false;
+        let summe_gkg_v1 = 1.5 * gkg_geb_v as f64;
         let summe_rvg13_v2 = 0.0;
         let summe_rvg49_v2 = 0.0;
         let summe_gkg_v2 = 0.0;
@@ -378,7 +447,7 @@ impl Mpkr {
         let steuersatz = 19;
         let umsatzsteuer = summe_netto / 100.0 * (steuersatz as f64);
         let summe_brutto = summe_netto + umsatzsteuer;
-        let summe_gkg = summe_gkg_v + summe_gkg_h;
+        let summe_gkg = summe_gkg_h;
         let summe_total = summe_brutto + summe_gkg;
         
         Mpkr {
@@ -427,8 +496,21 @@ impl Mpkr {
             summe_gkg_h3,
             instanz_v1,
             instanz_v2,
+            v1_3100,
+            v1_3100_13,
+            v1_3100_49,
+            v1_3101,
+            v1_3104,
+            v1_3104_13,
+            v1_3104_49,
+            v1_7002,
+            v1_pauschale,
+            v1_7000ua,
+            v1_auslagen,
             summe_rvg13_v1,
             summe_rvg49_v1,
+            v1_5210,
+            v1_5211,
             summe_gkg_v1,
             summe_rvg13_v2,
             summe_rvg49_v2,
@@ -626,7 +708,7 @@ impl Mpkr {
         self.instanz_h2
     }
 
-        pub fn set_instanz_h3(&mut self, i: bool) {
+    pub fn set_instanz_h3(&mut self, i: bool) {
         self.instanz_h3 = i;
     }
 
@@ -776,6 +858,135 @@ impl Mpkr {
 
     pub fn instanz_v2(&self) -> bool {
         self.instanz_v2
+    }
+
+    pub fn set_v1_3100(&mut self, i: bool) {
+        self.v1_3100 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_3100(&self) -> bool {
+        self.v1_3100
+    }
+
+    pub fn set_v1_3100_13(&mut self, v1_3100_13 :f64) {
+        self.v1_3100_13 = v1_3100_13;
+    }
+
+    pub fn v1_3100_13(&self) -> f64 {
+        self.v1_3100_13
+    }
+
+    pub fn set_v1_3100_49(&mut self, v1_3100_49 :f64) {
+        self.v1_3100_49 = v1_3100_49;
+    }
+
+    pub fn v1_3100_49(&self) -> f64 {
+        self.v1_3100_49
+    }
+
+    pub fn set_v1_3101(&mut self, i: bool) {
+        if i { self.set_v1_3100(true); }
+        self.v1_3101 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_3101(&self) -> bool {
+        self.v1_3101
+    }
+
+    pub fn set_v1_3104(&mut self, i: bool) {
+        self.v1_3104 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_3104(&self) -> bool {
+        self.v1_3104
+    }
+
+    pub fn set_v1_3104_13(&mut self, v1_3104_13 :f64) {
+        self.v1_3104_13 = v1_3104_13;
+    }
+
+    pub fn v1_3104_13(&self) -> f64 {
+        self.v1_3104_13
+    }
+
+    pub fn set_v1_3104_49(&mut self, v1_3104_49 :f64) {
+        self.v1_3104_49 = v1_3104_49;
+    }
+
+    pub fn v1_3104_49(&self) -> f64 {
+        self.v1_3104_49
+    }
+
+    pub fn set_v1_7002(&mut self, i: bool) {
+        self.v1_7002 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_7002(&self) -> bool {
+        self.v1_7002
+    }
+
+    pub fn v1_pauschale(&self) -> f64 {
+        self.v1_pauschale
+    }
+
+    pub fn set_v1_7000ua(&mut self, i: bool) {
+        self.v1_7000ua = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_7000ua(&self) -> bool {
+        self.v1_7000ua
+    }
+
+    pub fn set_v1_auslagen(&mut self, auslagen: f64) {
+        if auslagen > 0.0 { 
+            self.set_v1_7000ua(true);
+            self.v1_auslagen = auslagen;
+            self.set_v1_auto();
+        }
+    }
+
+    pub fn v1_auslagen(&self) -> f64 {
+        self.v1_auslagen
+    }
+
+    pub fn set_summe_rvg13_v1(&mut self, summe_rvg13_v1: f64) {
+        self.summe_rvg13_v1 = summe_rvg13_v1;
+    }
+
+    pub fn set_summe_rvg49_v1(&mut self, summe_rvg49_v1: f64) {
+        self.summe_rvg49_v1 = summe_rvg49_v1;
+    }
+
+    pub fn set_v1_5210(&mut self, i :bool) {
+        self.v1_5210 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_5210(&self) -> bool {
+        self.v1_5210
+    }
+
+    pub fn set_v1_5211(&mut self, i :bool) {
+        if i { self.set_v1_5210(true); }
+        self.v1_5211 = i;
+        self.set_v1_auto();
+    }
+
+    pub fn v1_5211(&self) -> bool {
+        self.v1_5211
+    }
+   
+    pub fn set_summe_gkg_v1(&mut self, summe_gkg_v1: f64) {
+        self.summe_gkg_v1 = summe_gkg_v1;
+    }
+
+    pub fn summe_gkg_v1(&self) -> f64 {
+        self.summe_gkg_v1
     }
 
     pub fn set_summe_rvg13_h(&mut self, summe: f64) {
