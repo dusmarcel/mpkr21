@@ -133,9 +133,17 @@ async function main() {
     const bs_instanz_h1 = new bootstrap.Collapse("#div_instanz_h1", { toggle: false });
     const bs_instanz_h2 = new bootstrap.Collapse("#div_instanz_h2", { toggle: false });
     const bs_instanz_h3 = new bootstrap.Collapse("#div_instanz_h3", { toggle: false });
+    const summe_rvg13_h = document.getElementById("summe_rvg13_h");
+    const summe_rvg49_h = document.getElementById("summe_rvg49_h");
+    const summe_gkg_h = document.getElementById("summe_gkg_h");
+
     const bs_vorlaeufig = new bootstrap.Collapse("#vorlaeufig", { toggle: false });
     const bs_instanz_v1 = new bootstrap.Collapse("#div_instanz_v1", { toggle: false });
     const bs_instanz_v2 = new bootstrap.Collapse("#div_instanz_v2", { toggle: false });
+    const summe_rvg13_v = document.getElementById("summe_rvg13_v");
+    const summe_rvg49_v = document.getElementById("summe_rvg49_v");
+    const summe_gkg_v = document.getElementById("summe_gkg_v");
+
     const bs_row_summe_aussergerichtlich = new bootstrap.Collapse("#row_summe_aussergerichtlich", { toggle: false });
     const bs_row_summe_rvg_h = new bootstrap.Collapse("#row_summe_rvg_h", { toggle: false });
     const bs_row_summe_rvg_v = new bootstrap.Collapse("#row_summe_rvg_v", { toggle: false });
@@ -198,6 +206,9 @@ async function main() {
             } else {
                 bs_instanz_h3.hide();
             }
+            summe_rvg13_h.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_h()) + " EUR</label>";
+            summe_rvg49_h.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg49_h()) + " EUR</label>";
+            summe_gkg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h()) + " EUR</label>";                       
             l_summe_rvg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_h()) + " EUR</label>"
             bs_row_summe_rvg_h.show();
             l_summe_gkg_h.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h()) + " EUR</label>"
@@ -238,7 +249,10 @@ async function main() {
             } else {
                 bs_instanz_v2.hide();
             }
-            l_summe_rvg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_v()) + " EUR</label>"
+            summe_rvg13_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_v()) + " EUR</label>";
+            summe_rvg49_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg49_v()) + " EUR</label>";
+            summe_gkg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v()) + " EUR</label>";            
+            l_summe_rvg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_rvg13_v()) + " EUR</label>";
             bs_row_summe_rvg_v.show();
             l_summe_gkg_v.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v()) + " EUR</label>"
             bs_row_summe_gkg_v.show();
