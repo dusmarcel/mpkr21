@@ -830,7 +830,7 @@ impl Mpkr {
     }
 
     pub fn h1_anrechnung13(&self) -> f64 {
-        if self.h1_anrechnung {
+        if self.h1_anrechnung && self.h1_3100 {
             let mut anrechnungsbetrag = 0.5 * self.geschaeftsgebuehr();
             if anrechnungsbetrag > 0.75 * self.rvg13_geb_h() as f64 {
                 anrechnungsbetrag = 0.75 * self.rvg13_geb_h() as f64;
