@@ -117,6 +117,13 @@ async function main() {
         mpkr.set_h1_3101(event.target.checked);
         update();
     });
+    const h1_anrechnung = document.getElementById("h1_anrechnung");
+    h1_anrechnung.addEventListener("change", (event) => {
+        mpkr.set_h1_anrechnung(event.target.checked);
+        update();
+    });
+    const h1_anrechnung13 = document.getElementById("h1_anrechnung13");
+    const h1_anrechnung49 = document.getElementById("h1_anrechnung49");
     const h1_3104 = document.getElementById("h1_3104");
     h1_3104.addEventListener("change", (event) => {
         mpkr.set_h1_3104(event.target.checked);
@@ -275,6 +282,9 @@ async function main() {
                 h1_3100_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_13()) + " EUR</label>";
                 h1_3100_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3100_49()) + " EUR</label>";
                 h1_3101.checked = mpkr.h1_3101();
+                h1_anrechnung.checked = mpkr.h1_anrechnung();
+                h1_anrechnung13.innerHTML = "<label> - " + formatNumber(mpkr.h1_anrechnung13()) + " EUR</label>";
+                h1_anrechnung49.innerHTML = "<label> - " + formatNumber(mpkr.h1_anrechnung49()) + " EUR</label>";
                 h1_3104.checked = mpkr.h1_3104();
                 h1_3104_13.innerHTML = "<label>" + formatNumber(mpkr.h1_3104_13()) + " EUR</label>";
                 h1_3104_49.innerHTML = "<label>" + formatNumber(mpkr.h1_3104_49()) + " EUR</label>";
