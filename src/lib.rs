@@ -560,7 +560,7 @@ impl Mpkr {
         let summe_rvg13_v = summe_rvg13_v1;
         let summe_rvg49_v = summe_rvg49_v1;
         let summe_gkg_v = summe_gkg_v1;
-        let summe_netto = summe_rvg13_h + summe_rvg13_v;
+        let summe_netto = summe_rvg13_h;
         let steuersatz = 19;
         let umsatzsteuer = summe_netto / 100.0 * (steuersatz as f64);
         let summe_brutto = summe_netto + umsatzsteuer;
