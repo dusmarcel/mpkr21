@@ -188,8 +188,21 @@ pub struct Mpkr {
     v1_5210: bool,
     v1_5211: bool,
     summe_gkg_v1: f64,
+    v2_3200: bool,
+    v2_3200_13: f64,
+    v2_3200_49: f64,
+    v2_3201: bool,
+    v2_3202: bool,
+    v2_3202_13: f64,
+    v2_3202_49: f64,
+    v2_7002: bool,
+    v2_pauschale: f64,
+    v2_7000ua: bool,
+    v2_auslagen: f64,
     summe_rvg13_v2: f64,
     summe_rvg49_v2: f64,
+    v2_5240: bool,
+    v2_5241: bool,
     summe_gkg_v2: f64,
     summe_rvg13_h: f64,
     summe_rvg49_h: f64,
@@ -320,9 +333,9 @@ impl Mpkr {
         } else {
             self.v1_pauschale = 0.0;
         }
-        self.set_summe_rvg13_v1(self.v1_3100_13() + self.v1_3104_13() + self.h1_pauschale);
-        self.set_summe_rvg49_v1(self.v1_3100_49() + self.v1_3104_49() + self.h1_pauschale);
-        if self.h1_7000ua() {
+        self.set_summe_rvg13_v1(self.v1_3100_13() + self.v1_3104_13() + self.v1_pauschale);
+        self.set_summe_rvg49_v1(self.v1_3100_49() + self.v1_3104_49() + self.v1_pauschale);
+        if self.v1_7000ua() {
             self.set_summe_rvg13_v1(self.summe_rvg13_v1 + self.v1_auslagen());
             self.set_summe_rvg49_v1(self.summe_rvg49_v1 + self.v1_auslagen());
         }
@@ -334,6 +347,50 @@ impl Mpkr {
             self.set_summe_gkg_v1(1.5 * self.gkg_geb_v() as f64);
         } else {
             self.set_summe_gkg_v1(0.0);
+        }
+        self.set_summe_gkg_v_auto();
+    }
+
+    fn set_v2_auto(&mut self) {
+        if self.v2_3201 {
+            self.set_v2_3200_13(1.1 * self.rvg13_geb_v as f64);
+            self.set_v2_3200_49(1.1 * self.rvg49_geb_v as f64);
+        } else if self.v2_3200 {
+            self.set_v2_3200_13(1.6 * self.rvg13_geb_v as f64);
+            self.set_v2_3200_49(1.6 * self.rvg49_geb_v as f64);
+        } else {
+            self.set_v2_3200_13(0.0);
+            self.set_v2_3200_49(0.0);
+        }
+        if self.v2_3202 {
+            self.set_v2_3202_13(1.2 * self.rvg13_geb_v as f64);
+            self.set_v2_3202_49(1.2 * self.rvg49_geb_v as f64);
+        } else {
+            self.set_v2_3202_13(0.0);
+            self.set_v2_3202_49(0.0);
+        }
+        if self.v2_7002 {
+            self.v2_pauschale = (self.v2_3200_13() + self.v2_3202_13()) * 0.2;
+            if self.v2_pauschale > 20.0 {
+                self.v2_pauschale = 20.0;
+            }
+        } else {
+            self.v2_pauschale = 0.0;
+        }
+        self.set_summe_rvg13_v2(self.v2_3200_13() + self.v2_3202_13() + self.v2_pauschale);
+        self.set_summe_rvg49_v2(self.v2_3200_49() + self.v2_3202_49() + self.v2_pauschale);
+        if self.v2_7000ua() {
+            self.set_summe_rvg13_v2(self.summe_rvg13_v2 + self.v2_auslagen());
+            self.set_summe_rvg49_v2(self.summe_rvg49_v2 + self.v2_auslagen());
+        }
+        self.set_summe_rvg13_v_auto();
+        self.set_summe_rvg49_v_auto();
+        if self.v2_5241 {
+            self.set_summe_gkg_v2(1.0 * self.gkg_geb_v() as f64);
+        } else if self.v2_5240 {
+            self.set_summe_gkg_v2(2.0 * self.gkg_geb_v() as f64);
+        } else {
+            self.set_summe_gkg_v2(0.0);
         }
         self.set_summe_gkg_v_auto();
     }
@@ -476,20 +533,33 @@ impl Mpkr {
         let v1_pauschale = 20.0;
         let v1_7000ua = false;
         let v1_auslagen = 0.0;
-        let summe_rvg13_v1 = v1_3100_13 + v1_3104_13 + v1_pauschale + h1_auslagen;
+        let summe_rvg13_v1 = v1_3100_13 + v1_3104_13 + v1_pauschale + v1_auslagen;
         let summe_rvg49_v1 = v1_3100_49 + v1_3104_49 + v1_pauschale + v1_auslagen;
         let v1_5210 = true;
         let v1_5211 = false;
         let summe_gkg_v1 = 1.5 * gkg_geb_v as f64;
-        let summe_rvg13_v2 = 0.0;
-        let summe_rvg49_v2 = 0.0;
-        let summe_gkg_v2 = 0.0;
-        let summe_rvg13_h = summe_rvg13_h1 + summe_rvg13_h2 + summe_rvg13_h3;
-        let summe_rvg49_h = summe_rvg49_h1 + summe_rvg49_h2 + summe_rvg49_h3;
-        let summe_gkg_h = summe_gkg_h1 + summe_gkg_h2 + summe_gkg_h3;
-        let summe_rvg13_v = summe_rvg13_v1 + summe_rvg13_v2;
-        let summe_rvg49_v = summe_rvg49_v1 + summe_rvg49_v2;
-        let summe_gkg_v = summe_gkg_v1 + summe_gkg_v2;
+        let v2_3200 = true;
+        let v2_3200_13 = 1.6 * rvg13_geb_v as f64;
+        let v2_3200_49 = 1.6 * rvg49_geb_v as f64;
+        let v2_3201 = false;
+        let v2_3202 = true;
+        let v2_3202_13 = 1.2 * rvg13_geb_v as f64;
+        let v2_3202_49 = 1.2 * rvg49_geb_v as f64;
+        let v2_7002 = true;
+        let v2_pauschale = 20.0;
+        let v2_7000ua = false;
+        let v2_auslagen = 0.0;
+        let summe_rvg13_v2 = v2_3200_13 + v2_3202_13 + v2_pauschale + v2_auslagen;
+        let summe_rvg49_v2 = v2_3200_49 + v2_3202_49 + v2_pauschale + v2_auslagen;
+        let v2_5240 = true;
+        let v2_5241 = false;
+        let summe_gkg_v2 = 2.0 * gkg_geb_v as f64;
+        let summe_rvg13_h = summe_rvg13_h1;
+        let summe_rvg49_h = summe_rvg49_h1;
+        let summe_gkg_h = summe_gkg_h1;
+        let summe_rvg13_v = summe_rvg13_v1;
+        let summe_rvg49_v = summe_rvg49_v1;
+        let summe_gkg_v = summe_gkg_v1;
         let summe_netto = summe_rvg13_h + summe_rvg13_v;
         let steuersatz = 19;
         let umsatzsteuer = summe_netto / 100.0 * (steuersatz as f64);
@@ -559,8 +629,21 @@ impl Mpkr {
             v1_5210,
             v1_5211,
             summe_gkg_v1,
+            v2_3200,
+            v2_3200_13,
+            v2_3200_49,
+            v2_3201,
+            v2_3202,
+            v2_3202_13,
+            v2_3202_49,
+            v2_7002,
+            v2_pauschale,
+            v2_7000ua,
+            v2_auslagen,
             summe_rvg13_v2,
             summe_rvg49_v2,
+            v2_5240,
+            v2_5241,
             summe_gkg_v2,
             summe_rvg13_h,
             summe_rvg49_h,
@@ -759,6 +842,7 @@ impl Mpkr {
 
     pub fn set_instanz_h1(&mut self, i: bool) {
         self.instanz_h1 = i;
+        self.set_h1_auto();
     }
 
     pub fn instanz_h1(&self) -> bool {
@@ -953,6 +1037,7 @@ impl Mpkr {
 
     pub fn set_instanz_v1(&mut self, i: bool) {
         self.instanz_v1 = i;
+        self.set_v1_auto();
     }
 
     pub fn instanz_v1(&self) -> bool {
@@ -961,6 +1046,7 @@ impl Mpkr {
 
     pub fn set_instanz_v2(&mut self, i: bool) {
         self.instanz_v2 = i;
+        self.set_v2_auto();
     }
 
     pub fn instanz_v2(&self) -> bool {
@@ -1098,6 +1184,138 @@ impl Mpkr {
 
     pub fn summe_gkg_v1(&self) -> f64 {
         self.summe_gkg_v1
+    }
+    pub fn set_v2_3200(&mut self, i: bool) {
+        self.v2_3200 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_3200(&self) -> bool {
+        self.v2_3200
+    }
+
+    pub fn set_v2_3200_13(&mut self, v2_3200_13: f64) {
+        self.v2_3200_13 = v2_3200_13;
+    }
+
+    pub fn v2_3200_13(&self) -> f64 {
+        self.v2_3200_13
+    }
+
+    pub fn set_v2_3200_49(&mut self, v2_3200_49: f64) {
+        self.v2_3200_49 = v2_3200_49;
+    }
+
+    pub fn v2_3200_49(&self) -> f64 {
+        self.v2_3200_49
+    }
+
+    pub fn set_v2_3201(&mut self, i: bool) {
+        if i {
+            self.set_v2_3200(true);
+        }
+        self.v2_3201 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_3201(&self) -> bool {
+        self.v2_3201
+    }
+
+    pub fn set_v2_3202(&mut self, i: bool) {
+        self.v2_3202 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_3202(&self) -> bool {
+        self.v2_3202
+    }
+
+    pub fn set_v2_3202_13(&mut self, v2_3202_13: f64) {
+        self.v2_3202_13 = v2_3202_13;
+    }
+
+    pub fn v2_3202_13(&self) -> f64 {
+        self.v2_3202_13
+    }
+
+    pub fn set_v2_3202_49(&mut self, v2_3202_49: f64) {
+        self.v2_3202_49 = v2_3202_49;
+    }
+
+    pub fn v2_3202_49(&self) -> f64 {
+        self.v2_3202_49
+    }
+
+    pub fn set_v2_7002(&mut self, i: bool) {
+        self.v2_7002 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_7002(&self) -> bool {
+        self.v2_7002
+    }
+
+    pub fn v2_pauschale(&self) -> f64 {
+        self.v2_pauschale
+    }
+
+    pub fn set_v2_7000ua(&mut self, i: bool) {
+        self.v2_7000ua = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_7000ua(&self) -> bool {
+        self.v2_7000ua
+    }
+
+    pub fn set_v2_auslagen(&mut self, auslagen: f64) {
+        if auslagen > 0.0 {
+            self.set_v2_7000ua(true);
+            self.v2_auslagen = auslagen;
+            self.set_v2_auto();
+        }
+    }
+
+    pub fn v2_auslagen(&self) -> f64 {
+        self.v2_auslagen
+    }
+
+    pub fn set_summe_rvg13_v2(&mut self, summe_rvg13_v2: f64) {
+        self.summe_rvg13_v2 = summe_rvg13_v2;
+    }
+
+    pub fn set_summe_rvg49_v2(&mut self, summe_rvg49_v2: f64) {
+        self.summe_rvg49_v2 = summe_rvg49_v2;
+    }
+
+    pub fn set_v2_5240(&mut self, i: bool) {
+        self.v2_5240 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_5240(&self) -> bool {
+        self.v2_5240
+    }
+
+    pub fn set_v2_5241(&mut self, i: bool) {
+        if i {
+            self.set_v2_5240(true);
+        }
+        self.v2_5241 = i;
+        self.set_v2_auto();
+    }
+
+    pub fn v2_5241(&self) -> bool {
+        self.v2_5241
+    }
+
+    pub fn set_summe_gkg_v2(&mut self, summe_gkg_v2: f64) {
+        self.summe_gkg_v2 = summe_gkg_v2;
+    }
+
+    pub fn summe_gkg_v2(&self) -> f64 {
+        self.summe_gkg_v2
     }
 
     pub fn set_summe_rvg13_h(&mut self, summe: f64) {

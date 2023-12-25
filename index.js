@@ -198,7 +198,7 @@ async function main() {
     const v1_7002_13 = document.getElementById("v1_7002_13");
     const v1_7002_49 = document.getElementById("v1_7002_49");
     const v1_7000ua = document.getElementById("v1_7000ua");
-    h1_7000ua.addEventListener("change", (event) => {
+    v1_7000ua.addEventListener("change", (event) => {
         mpkr.set_v1_7000ua(event.target.checked);
         update();
     });
@@ -216,6 +216,54 @@ async function main() {
     const v1_5211 = document.getElementById("v1_5211");
     v1_5211.addEventListener("change", (event) => {
         mpkr.set_v1_5211(event.target.checked);
+        update();
+    });
+
+    const v2_3200 = document.getElementById("v2_3200");
+    v2_3200.addEventListener("change", (event) => {
+        mpkr.set_v2_3200(event.target.checked);
+        update();
+    });
+    const v2_3200_13 = document.getElementById("v2_3200_13");
+    const v2_3200_49 = document.getElementById("v2_3200_49");
+    const v2_3201 = document.getElementById("v2_3201");
+    v2_3201.addEventListener("change", (event) => {
+        mpkr.set_v2_3201(event.target.checked);
+        update();
+    });
+    const v2_3202 = document.getElementById("v2_3202");
+    v2_3202.addEventListener("change", (event) => {
+        mpkr.set_v2_3202(event.target.checked);
+        update();
+    });
+    const v2_3202_13 = document.getElementById("v2_3202_13");
+    const v2_3202_49 = document.getElementById("v2_3202_49");
+    const v2_7002 = document.getElementById("v2_7002");
+    v2_7002.addEventListener("change", (event) => {
+        mpkr.set_v2_7002(event.target.checked);
+        update();
+    });
+    const v2_7002_13 = document.getElementById("v2_7002_13");
+    const v2_7002_49 = document.getElementById("v2_7002_49");
+    const v2_7000ua = document.getElementById("v2_7000ua");
+    v2_7000ua.addEventListener("change", (event) => {
+        mpkr.set_v2_7000ua(event.target.checked);
+        update();
+    });
+    const v2_auslagen = document.getElementById("v2_auslagen");
+    v2_auslagen.addEventListener("change", (event) => {
+        mpkr.set_v2_auslagen(parseFloat(event.target.value.replace(',', '.')));
+        update();
+    });
+    const v2_5240 = document.getElementById("v2_5240");
+    v2_5240.addEventListener("change", (event) => {
+        mpkr.set_v2_5240(event.target.checked);
+        update();
+    });
+    const l_v2_5240 = document.getElementById("l_v2_5240");
+    const v2_5241 = document.getElementById("v2_5241");
+    v2_5241.addEventListener("change", (event) => {
+        mpkr.set_v2_5241(event.target.checked);
         update();
     });
 
@@ -364,6 +412,21 @@ async function main() {
                 bs_instanz_v1.hide();
             }
             if (mpkr.instanz_v2()) {
+                v2_3200.checked = mpkr.v2_3200();
+                v2_3200_13.innerHTML = "<label>" + formatNumber(mpkr.v2_3200_13()) + " EUR</label>";
+                v2_3200_49.innerHTML = "<label>" + formatNumber(mpkr.v2_3200_49()) + " EUR</label>";
+                v2_3201.checked = mpkr.v2_3201();
+                v2_3202.checked = mpkr.v2_3202();
+                v2_3202_13.innerHTML = "<label>" + formatNumber(mpkr.v2_3202_13()) + " EUR</label>";
+                v2_3202_49.innerHTML = "<label>" + formatNumber(mpkr.v2_3202_49()) + " EUR</label>";
+                v2_7002.checked = mpkr.v2_7002();
+                v2_7002_13.innerHTML = "<label>" + formatNumber(mpkr.v2_pauschale()) + " EUR</label>";
+                v2_7002_49.innerHTML = "<label>" + formatNumber(mpkr.v2_pauschale()) + " EUR</label>";  
+                v2_7000ua.checked = mpkr.v2_7000ua();
+                v2_auslagen.value = formatNumber(mpkr.v2_auslagen());
+                v2_5240.checked = mpkr.v2_5240();
+                l_v2_5240.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_v2()) + " EUR</label>";
+                v2_5241.checked = mpkr.v2_5241();
                 bs_instanz_v2.show();
             } else {
                 bs_instanz_v2.hide();
