@@ -3,6 +3,10 @@ name = "mpkr"
 version = "0.1.0"
 authors = ["marceldus <marcel@keienb.org>"]
 edition = "2018"
+description = "Migrationsrechtlicher Prozesskostenrechner"
+repository = "https://codeberg.org/marceldus/mpkr"
+license = "MIT OR Apache-2.0"
+
 
 [lib]
 crate-type = ["cdylib", "rlib"]

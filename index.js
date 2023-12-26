@@ -160,6 +160,122 @@ async function main() {
         update();
     });
 
+    const h2_3200 = document.getElementById("h2_3200");
+    h2_3200.addEventListener("change", (event) => {
+        mpkr.set_h2_3200(event.target.checked);
+        update();
+    });
+    const h2_3200_13 = document.getElementById("h2_3200_13");
+    const h2_3200_49 = document.getElementById("h2_3200_49");
+    const h2_3201 = document.getElementById("h2_3201");
+    h2_3201.addEventListener("change", (event) => {
+        mpkr.set_h2_3201(event.target.checked);
+        update();
+    });
+    const h2_3202 = document.getElementById("h2_3202");
+    h2_3202.addEventListener("change", (event) => {
+        mpkr.set_h2_3202(event.target.checked);
+        update();
+    });
+    const h2_3202_13 = document.getElementById("h2_3202_13");
+    const h2_3202_49 = document.getElementById("h2_3202_49");
+    const h2_7002 = document.getElementById("h2_7002");
+    h2_7002.addEventListener("change", (event) => {
+        mpkr.set_h2_7002(event.target.checked);
+        update();
+    });
+    const h2_7002_13 = document.getElementById("h2_7002_13");
+    const h2_7002_49 = document.getElementById("h2_7002_49");
+    const h2_7000ua = document.getElementById("h2_7000ua");
+    h2_7000ua.addEventListener("change", (event) => {
+        mpkr.set_h2_7000ua(event.target.checked);
+        update();
+    });
+    const h2_auslagen = document.getElementById("h2_auslagen");
+    h2_auslagen.addEventListener("change", (event) => {
+        mpkr.set_h2_auslagen(parseFloat(event.target.value.replace(',', '.')));
+        update();
+    });
+    const h2_5122 = document.getElementById("h2_5122");
+    h2_5122.addEventListener("change", (event) => {
+        mpkr.set_h2_5122(event.target.checked);
+        update();
+    });
+    const l_h2_5122 = document.getElementById("l_h2_5122");
+    const h2_5120 = document.getElementById("h2_5120");
+    h2_5120.addEventListener("change", (event) => {
+        mpkr.set_h2_5120(event.target.checked);
+        update();
+    });
+    const h2_5121 = document.getElementById("h2_5121");
+    h2_5121.addEventListener("change", (event) => {
+        mpkr.set_h2_5120(event.target.checked);
+        update();
+    });
+    const h2_5123 = document.getElementById("h2_5123");
+    h2_5123.addEventListener("change", (event) => {
+        mpkr.set_h2_5123(event.target.checked);
+        update();
+    });
+    const h2_5124 = document.getElementById("h2_5124");
+    h2_5124.addEventListener("change", (event) => {
+        mpkr.set_h2_5124(event.target.checked);
+        update();
+    });
+
+    const h3_3206 = document.getElementById("h3_3206");
+    h3_3206.addEventListener("change", (event) => {
+        mpkr.set_h3_3206(event.target.checked);
+        update();
+    });
+    const h3_3206_13 = document.getElementById("h3_3206_13");
+    const h3_3206_49 = document.getElementById("h3_3206_49");
+    const h3_3207 = document.getElementById("h3_3207");
+    h3_3207.addEventListener("change", (event) => {
+        mpkr.set_h3_3207(event.target.checked);
+        update();
+    });
+    const h3_3210 = document.getElementById("h3_3210");
+    h3_3210.addEventListener("change", (event) => {
+        mpkr.set_h3_3210(event.target.checked);
+        update();
+    });
+    const h3_3210_13 = document.getElementById("h2_3210_13");
+    const h3_3210_49 = document.getElementById("h3_3210_49");
+    const h3_7002 = document.getElementById("h3_7002");
+    h3_7002.addEventListener("change", (event) => {
+        mpkr.set_h3_7002(event.target.checked);
+        update();
+    });
+    const h3_7002_13 = document.getElementById("h3_7002_13");
+    const h3_7002_49 = document.getElementById("h3_7002_49");
+    const h3_7000ua = document.getElementById("h3_7000ua");
+    h3_7000ua.addEventListener("change", (event) => {
+        mpkr.set_h3_7000ua(event.target.checked);
+        update();
+    });
+    const h3_auslagen = document.getElementById("h3_auslagen");
+    h3_auslagen.addEventListener("change", (event) => {
+        mpkr.set_h3_auslagen(parseFloat(event.target.value.replace(',', '.')));
+        update();
+    });
+    const h3_5130 = document.getElementById("h3_5130");
+    h3_5130.addEventListener("change", (event) => {
+        mpkr.set_h3_5130(event.target.checked);
+        update();
+    });
+    const l_h3_5130 = document.getElementById("l_h3_5130");
+    const h3_5131 = document.getElementById("h2_5120");
+    h3_5131.addEventListener("change", (event) => {
+        mpkr.set_h3_5131(event.target.checked);
+        update();
+    });
+    const h3_5132 = document.getElementById("h3_5132");
+    h3_5132.addEventListener("change", (event) => {
+        mpkr.set_h3_5132(event.target.checked);
+        update();
+    });
+
     const instanz_v1 = document.getElementById("instanz_v1");
     instanz_v1.addEventListener("change", (event) => {
         mpkr.set_instanz_v1(event.target.checked);
@@ -349,11 +465,45 @@ async function main() {
                 bs_instanz_h1.hide();
             }
             if (mpkr.instanz_h2()) {
+                h2_3200.checked = mpkr.h2_3200();
+                h2_3200_13.innerHTML = "<label>" + formatNumber(mpkr.h2_3200_13()) + " EUR</label>";
+                h2_3200_49.innerHTML = "<label>" + formatNumber(mpkr.h2_3200_49()) + " EUR</label>";
+                h2_3201.checked = mpkr.h2_3201();
+                h2_3202.checked = mpkr.h2_3202();
+                h2_3202_13.innerHTML = "<label>" + formatNumber(mpkr.h2_3202_13()) + " EUR</label>";
+                h2_3202_49.innerHTML = "<label>" + formatNumber(mpkr.h2_3202_49()) + " EUR</label>";
+                h2_7002.checked = mpkr.h2_7002();
+                h2_7002_13.innerHTML = "<label>" + formatNumber(mpkr.h2_pauschale()) + " EUR</label>";
+                h2_7002_49.innerHTML = "<label>" + formatNumber(mpkr.h2_pauschale()) + " EUR</label>";  
+                h2_7000ua.checked = mpkr.h2_7000ua();
+                h2_auslagen.value = formatNumber(mpkr.h2_auslagen());
+                h2_5122.checked = mpkr.h2_5122();
+                l_h2_5122.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h2()) + " EUR</label>";
+                h2_5120.checked = mpkr.h2_5120();
+                h2_5121.checked = mpkr.h2_5121();
+                h2_5123.checked = mpkr.h2_5123();
+                h2_5124.checked = mpkr.h2_5124();
                 bs_instanz_h2.show();
             } else {
                 bs_instanz_h2.hide();
             }
             if (mpkr.instanz_h3()) {
+                h3_3206.checked = mpkr.h3_3206();
+                h3_3206_13.innerHTML = "<label>" + formatNumber(mpkr.h3_3206_13()) + " EUR</label>";
+                h3_3206_49.innerHTML = "<label>" + formatNumber(mpkr.h3_3206_49()) + " EUR</label>";
+                h3_3207.checked = mpkr.h3_3207();
+                h3_3210.checked = mpkr.h3_3210();
+                h3_3210_13.innerHTML = "<label>" + formatNumber(mpkr.h3_3210_13()) + " EUR</label>";
+                h3_3210_49.innerHTML = "<label>" + formatNumber(mpkr.h3_3210_49()) + " EUR</label>";
+                h3_7002.checked = mpkr.h3_7002();
+                h3_7002_13.innerHTML = "<label>" + formatNumber(mpkr.h3_pauschale()) + " EUR</label>";
+                h3_7002_49.innerHTML = "<label>" + formatNumber(mpkr.h3_pauschale()) + " EUR</label>";  
+                h3_7000ua.checked = mpkr.h3_7000ua();
+                h3_auslagen.value = formatNumber(mpkr.h3_auslagen());
+                h3_5130.checked = mpkr.h3_5130();
+                l_h3_5130.innerHTML = "<label>" + formatNumber(mpkr.summe_gkg_h3()) + " EUR</label>";
+                h3_5131.checked = mpkr.h3_5131();
+                h3_5132.checked = mpkr.h3_5132();
                 bs_instanz_h3.show();
             } else {
                 bs_instanz_h3.hide();
