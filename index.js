@@ -209,7 +209,7 @@ async function main() {
     });
     const h2_5121 = document.getElementById("h2_5121");
     h2_5121.addEventListener("change", (event) => {
-        mpkr.set_h2_5120(event.target.checked);
+        mpkr.set_h2_5121(event.target.checked);
         update();
     });
     const h2_5123 = document.getElementById("h2_5123");
@@ -240,7 +240,7 @@ async function main() {
         mpkr.set_h3_3210(event.target.checked);
         update();
     });
-    const h3_3210_13 = document.getElementById("h2_3210_13");
+    const h3_3210_13 = document.getElementById("h3_3210_13");
     const h3_3210_49 = document.getElementById("h3_3210_49");
     const h3_7002 = document.getElementById("h3_7002");
     h3_7002.addEventListener("change", (event) => {
@@ -265,7 +265,7 @@ async function main() {
         update();
     });
     const l_h3_5130 = document.getElementById("l_h3_5130");
-    const h3_5131 = document.getElementById("h2_5120");
+    const h3_5131 = document.getElementById("h3_5131");
     h3_5131.addEventListener("change", (event) => {
         mpkr.set_h3_5131(event.target.checked);
         update();

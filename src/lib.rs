@@ -164,11 +164,41 @@ pub struct Mpkr {
     h1_5110: bool,
     h1_5111: bool,
     summe_gkg_h1: f64,
+    h2_3200: bool,
+    h2_3200_13: f64,
+    h2_3200_49: f64,
+    h2_3201: bool,
+    h2_3202: bool,
+    h2_3202_13: f64,
+    h2_3202_49: f64,
+    h2_7002: bool,
+    h2_pauschale: f64,
+    h2_7000ua: bool,
+    h2_auslagen: f64,
     summe_rvg13_h2: f64,
     summe_rvg49_h2: f64,
+    h2_5122: bool,
+    h2_5120: bool,
+    h2_5121: bool,
+    h2_5123: bool,
+    h2_5124: bool,
     summe_gkg_h2: f64,
+    h3_3206: bool,
+    h3_3206_13: f64,
+    h3_3206_49: f64,
+    h3_3207: bool,
+    h3_3210: bool,
+    h3_3210_13: f64,
+    h3_3210_49: f64,
+    h3_7002: bool,
+    h3_pauschale: f64,
+    h3_7000ua: bool,
+    h3_auslagen: f64,
     summe_rvg13_h3: f64,
     summe_rvg49_h3: f64,
+    h3_5130: bool,
+    h3_5131: bool,
+    h3_5132: bool,
     summe_gkg_h3: f64,
     instanz_v1: bool,
     instanz_v2: bool,
@@ -303,6 +333,102 @@ impl Mpkr {
             self.set_summe_gkg_h1(3.0 * self.gkg_geb_h() as f64);
         } else {
             self.set_summe_gkg_h1(0.0);
+        }
+        self.set_summe_gkg_h_auto();
+    }
+
+    fn set_h2_auto(&mut self) {
+        if self.h2_3201 {
+            self.set_h2_3200_13(1.1 * self.rvg13_geb_h as f64);
+            self.set_h2_3200_49(1.1 * self.rvg49_geb_h as f64);
+        } else if self.h2_3200 {
+            self.set_h2_3200_13(1.6 * self.rvg13_geb_h as f64);
+            self.set_h2_3200_49(1.6 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h2_3200_13(0.0);
+            self.set_h2_3200_49(0.0);
+        }
+        if self.h2_3202 {
+            self.set_h2_3202_13(1.2 * self.rvg13_geb_h as f64);
+            self.set_h2_3202_49(1.2 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h2_3202_13(0.0);
+            self.set_h2_3202_49(0.0);
+        }
+        if self.h2_7002 {
+            self.h2_pauschale = (self.h2_3200_13() + self.h2_3202_13()) * 0.2;
+            if self.h2_pauschale > 20.0 {
+                self.h2_pauschale = 20.0;
+            }
+        } else {
+            self.h2_pauschale = 0.0;
+        }
+        self.set_summe_rvg13_h2(self.h2_3200_13() + self.h2_3202_13() + self.h2_pauschale);
+        self.set_summe_rvg49_h2(self.h2_3200_49() + self.h2_3202_49() + self.h2_pauschale);
+        if self.h2_7000ua() {
+            self.set_summe_rvg13_h2(self.summe_rvg13_h2 + self.h2_auslagen());
+            self.set_summe_rvg49_h2(self.summe_rvg49_h2 + self.h2_auslagen());
+        }
+        self.set_summe_rvg13_h_auto();
+        self.set_summe_rvg49_h_auto();
+        if self.h2_5120 {
+            self.set_summe_gkg_h2(1.0 * self.gkg_geb_h() as f64);
+        } else if self.h2_5121 {
+            self.set_summe_gkg_h2(0.5 * self.gkg_geb_h() as f64);
+        } else if self.h2_5123 {
+            self.set_summe_gkg_h2(1.0 * self.gkg_geb_h() as f64);
+        } else if self.h2_5124 {
+            self.set_summe_gkg_h2(2.0 * self.gkg_geb_h() as f64);
+        }else if self.h2_5122 {
+            self.set_summe_gkg_h2(4.0 * self.gkg_geb_h() as f64);
+        } else {
+            self.set_summe_gkg_h2(0.0);
+        }
+        self.set_summe_gkg_h_auto();
+    }
+
+    fn set_h3_auto(&mut self) {
+        if self.h3_3207 {
+            self.set_h3_3206_13(1.1 * self.rvg13_geb_h as f64);
+            self.set_h3_3206_49(1.1 * self.rvg49_geb_h as f64);
+        } else if self.h3_3206 {
+            self.set_h3_3206_13(1.6 * self.rvg13_geb_h as f64);
+            self.set_h3_3206_49(1.6 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h3_3206_13(0.0);
+            self.set_h3_3206_49(0.0);
+        }
+        if self.h3_3210 {
+            self.set_h3_3210_13(1.5 * self.rvg13_geb_h as f64);
+            self.set_h3_3210_49(1.5 * self.rvg49_geb_h as f64);
+        } else {
+            self.set_h3_3210_13(0.0);
+            self.set_h3_3210_49(0.0);
+        }
+        if self.h3_7002 {
+            self.h3_pauschale = (self.h3_3206_13() + self.h3_3210_13()) * 0.2;
+            if self.h3_pauschale > 20.0 {
+                self.h3_pauschale = 20.0;
+            }
+        } else {
+            self.h3_pauschale = 0.0;
+        }
+        self.set_summe_rvg13_h3(self.h3_3206_13() + self.h3_3210_13() + self.h3_pauschale);
+        self.set_summe_rvg49_h3(self.h3_3206_49() + self.h3_3210_49() + self.h3_pauschale);
+        if self.h3_7000ua() {
+            self.set_summe_rvg13_h3(self.summe_rvg13_h3 + self.h3_auslagen());
+            self.set_summe_rvg49_h3(self.summe_rvg49_h3 + self.h3_auslagen());
+        }
+        self.set_summe_rvg13_h_auto();
+        self.set_summe_rvg49_h_auto();
+        if self.h3_5131 {
+            self.set_summe_gkg_h3(1.0 * self.gkg_geb_h() as f64);
+        } else if self.h3_5132 {
+            self.set_summe_gkg_h3(3.0 * self.gkg_geb_h() as f64);
+        } else if self.h3_5130 {
+            self.set_summe_gkg_h3(5.0 * self.gkg_geb_h() as f64);
+        } else {
+            self.set_summe_gkg_h3(0.0);
         }
         self.set_summe_gkg_h_auto();
     }
@@ -514,12 +640,42 @@ impl Mpkr {
         let h1_5110 = true;
         let h1_5111 = false;
         let summe_gkg_h1 = 3.0 * gkg_geb_h as f64;
-        let summe_rvg13_h2 = 0.0;
-        let summe_rvg49_h2 = 0.0;
-        let summe_gkg_h2 = 0.0;
-        let summe_rvg13_h3 = 0.0;
-        let summe_rvg49_h3 = 0.0;
-        let summe_gkg_h3 = 0.0;
+        let h2_3200 = true;
+        let h2_3200_13 = 1.6 * rvg13_geb_h as f64;
+        let h2_3200_49 = 1.6 * rvg49_geb_h as f64;
+        let h2_3201 = false;
+        let h2_3202 = true;
+        let h2_3202_13 = 1.2 * rvg13_geb_h as f64;
+        let h2_3202_49 = 1.2 * rvg49_geb_h as f64;
+        let h2_7002 = true;
+        let h2_pauschale = 20.0;
+        let h2_7000ua = false;
+        let h2_auslagen = 0.0;
+        let summe_rvg13_h2 = h2_3200_13 + h2_3202_13 + h2_pauschale + h2_auslagen;
+        let summe_rvg49_h2 = h2_3200_49 + h2_3202_49 + h2_pauschale + h2_auslagen;
+        let h2_5122 = true;
+        let h2_5120 = false;
+        let h2_5121 = false;
+        let h2_5123 = false;
+        let h2_5124 = false;
+        let summe_gkg_h2 = 4.0 * gkg_geb_h as f64;
+        let h3_3206 = true;
+        let h3_3206_13 = 1.6 * rvg13_geb_h as f64;
+        let h3_3206_49 = 1.6 * rvg49_geb_h as f64;
+        let h3_3207 = false;
+        let h3_3210 = true;
+        let h3_3210_13 = 1.5 * rvg13_geb_h as f64;
+        let h3_3210_49 = 1.5 * rvg49_geb_h as f64;
+        let h3_7002 = true;
+        let h3_pauschale = 20.0;
+        let h3_7000ua = false;
+        let h3_auslagen = 0.0;
+        let summe_rvg13_h3 = h3_3206_13 + h3_3210_13 + h3_pauschale + h3_auslagen;
+        let summe_rvg49_h3 = h3_3206_49 + h3_3210_49 + h3_pauschale + h3_auslagen;
+        let h3_5130 = true;
+        let h3_5131 = false;
+        let h3_5132 = false;
+        let summe_gkg_h3 = 5.0 * gkg_geb_h as f64;
         let instanz_v1 = true;
         let instanz_v2 = false;
         let v1_3100 = true;
@@ -605,11 +761,41 @@ impl Mpkr {
             h1_5110,
             h1_5111,
             summe_gkg_h1,
+            h2_3200,
+            h2_3200_13,
+            h2_3200_49,
+            h2_3201,
+            h2_3202,
+            h2_3202_13,
+            h2_3202_49,
+            h2_7002,
+            h2_pauschale,
+            h2_7000ua,
+            h2_auslagen,
             summe_rvg13_h2,
             summe_rvg49_h2,
+            h2_5122,
+            h2_5120,
+            h2_5121,
+            h2_5123,
+            h2_5124,
             summe_gkg_h2,
+            h3_3206,
+            h3_3206_13,
+            h3_3206_49,
+            h3_3207,
+            h3_3210,
+            h3_3210_13,
+            h3_3210_49,
+            h3_7002,
+            h3_pauschale,
+            h3_7000ua,
+            h3_auslagen,
             summe_rvg13_h3,
             summe_rvg49_h3,
+            h3_5130,
+            h3_5131,
+            h3_5132,
             summe_gkg_h3,
             instanz_v1,
             instanz_v2,
@@ -851,6 +1037,7 @@ impl Mpkr {
 
     pub fn set_instanz_h2(&mut self, i: bool) {
         self.instanz_h2 = i;
+        self.set_h2_auto();
     }
 
     pub fn instanz_h2(&self) -> bool {
@@ -859,6 +1046,7 @@ impl Mpkr {
 
     pub fn set_instanz_h3(&mut self, i: bool) {
         self.instanz_h3 = i;
+        self.set_h3_auto();
     }
 
     pub fn instanz_h3(&self) -> bool {
@@ -1017,7 +1205,7 @@ impl Mpkr {
 
     pub fn set_h1_5111(&mut self, i: bool) {
         if i {
-            self.set_h1_5110(true);
+            self.h1_5110 = true;
         }
         self.h1_5111 = i;
         self.set_h1_auto();
@@ -1033,6 +1221,338 @@ impl Mpkr {
 
     pub fn summe_gkg_h1(&self) -> f64 {
         self.summe_gkg_h1
+    }
+
+    pub fn set_h2_3200(&mut self, i: bool) {
+        self.h2_3200 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_3200(&self) -> bool {
+        self.h2_3200
+    }
+
+    pub fn set_h2_3200_13(&mut self, h2_3200_13: f64) {
+        self.h2_3200_13 = h2_3200_13;
+    }
+
+    pub fn h2_3200_13(&self) -> f64 {
+        self.h2_3200_13
+    }
+
+    pub fn set_h2_3200_49(&mut self, h2_3200_49: f64) {
+        self.h2_3200_49 = h2_3200_49;
+    }
+
+    pub fn h2_3200_49(&self) -> f64 {
+        self.h2_3200_49
+    }
+
+    pub fn set_h2_3201(&mut self, i: bool) {
+        if i {
+            self.set_h2_3200(true);
+        }
+        self.h2_3201 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_3201(&self) -> bool {
+        self.h2_3201
+    }
+
+    pub fn set_h2_3202(&mut self, i: bool) {
+        self.h2_3202 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_3202(&self) -> bool {
+        self.h2_3202
+    }
+
+    pub fn set_h2_3202_13(&mut self, h2_3202_13: f64) {
+        self.h2_3202_13 = h2_3202_13;
+    }
+
+    pub fn h2_3202_13(&self) -> f64 {
+        self.h2_3202_13
+    }
+
+    pub fn set_h2_3202_49(&mut self, h2_3202_49: f64) {
+        self.h2_3202_49 = h2_3202_49;
+    }
+
+    pub fn h2_3202_49(&self) -> f64 {
+        self.h2_3202_49
+    }
+
+    pub fn set_h2_7002(&mut self, i: bool) {
+        self.h2_7002 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_7002(&self) -> bool {
+        self.h2_7002
+    }
+
+    pub fn h2_pauschale(&self) -> f64 {
+        self.h2_pauschale
+    }
+
+    pub fn set_h2_7000ua(&mut self, i: bool) {
+        self.h2_7000ua = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_7000ua(&self) -> bool {
+        self.h2_7000ua
+    }
+
+    pub fn set_h2_auslagen(&mut self, auslagen: f64) {
+        if auslagen > 0.0 {
+            self.set_h2_7000ua(true);
+            self.h2_auslagen = auslagen;
+            self.set_h2_auto();
+        }
+    }
+
+    pub fn h2_auslagen(&self) -> f64 {
+        self.h2_auslagen
+    }
+
+    pub fn set_summe_rvg13_h2(&mut self, summe_rvg13_h2: f64) {
+        self.summe_rvg13_h2 = summe_rvg13_h2;
+    }
+
+    pub fn set_summe_rvg49_h2(&mut self, summe_rvg49_h2: f64) {
+        self.summe_rvg49_h2 = summe_rvg49_h2;
+    }
+
+    pub fn set_h2_5122(&mut self, i: bool) {
+        if i {
+            self.h2_5120 = false;
+            self.h2_5121 = false;
+        }
+        self.h2_5122 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_5122(&self) -> bool {
+        self.h2_5122
+    }
+
+    pub fn set_h2_5120(&mut self, i: bool) {
+        if i {
+            self.h2_5121 = false;
+            self.h2_5122 = false;
+            self.h2_5123 = false;
+            self.h2_5124 = false;
+        }
+        self.h2_5120 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_5120(&self) -> bool {
+        self.h2_5120
+    }
+
+    pub fn set_h2_5121(&mut self, i: bool) {
+        if i {
+            self.h2_5120 = false;
+            self.h2_5122 = false;
+            self.h2_5123 = false;
+            self.h2_5124 = false;
+        }
+        self.h2_5121 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_5121(&self) -> bool {
+        self.h2_5121
+    }
+
+    pub fn set_h2_5123(&mut self, i: bool) {
+        if i {
+            self.h2_5120 = false;
+            self.h2_5121 = false;
+            self.h2_5122 = true;
+            self.h2_5124 = false;
+        }
+        self.h2_5123 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_5123(&self) -> bool {
+        self.h2_5123
+    }
+
+    pub fn set_h2_5124(&mut self, i: bool) {
+        if i {
+            self.h2_5120 = false;
+            self.h2_5121 = false;
+            self.h2_5122 = true;
+            self.h2_5123 = false;
+        }
+        self.h2_5124 = i;
+        self.set_h2_auto();
+    }
+
+    pub fn h2_5124(&self) -> bool {
+        self.h2_5124
+    }
+
+    pub fn set_summe_gkg_h2(&mut self, summe_gkg_h2: f64) {
+        self.summe_gkg_h2 = summe_gkg_h2;
+    }
+
+    pub fn summe_gkg_h2(&self) -> f64 {
+        self.summe_gkg_h2
+    }
+
+    pub fn set_h3_3206(&mut self, i: bool) {
+        self.h3_3206 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_3206(&self) -> bool {
+        self.h3_3206
+    }
+
+    pub fn set_h3_3206_13(&mut self, h3_3206_13: f64) {
+        self.h3_3206_13 = h3_3206_13;
+    }
+
+    pub fn h3_3206_13(&self) -> f64 {
+        self.h3_3206_13
+    }
+
+    pub fn set_h3_3206_49(&mut self, h3_3206_49: f64) {
+        self.h3_3206_49 = h3_3206_49;
+    }
+
+    pub fn h3_3206_49(&self) -> f64 {
+        self.h3_3206_49
+    }
+
+    pub fn set_h3_3207(&mut self, i: bool) {
+        if i {
+            self.set_h3_3206(true);
+        }
+        self.h3_3207 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_3207(&self) -> bool {
+        self.h3_3207
+    }
+
+    pub fn set_h3_3210(&mut self, i: bool) {
+        self.h3_3210 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_3210(&self) -> bool {
+        self.h3_3210
+    }
+
+    pub fn set_h3_3210_13(&mut self, h3_3210_13: f64) {
+        self.h3_3210_13 = h3_3210_13;
+    }
+
+    pub fn h3_3210_13(&self) -> f64 {
+        self.h3_3210_13
+    }
+
+    pub fn set_h3_3210_49(&mut self, h3_3210_49: f64) {
+        self.h3_3210_49 = h3_3210_49;
+    }
+
+    pub fn h3_3210_49(&self) -> f64 {
+        self.h3_3210_49
+    }
+
+    pub fn set_h3_7002(&mut self, i: bool) {
+        self.h3_7002 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_7002(&self) -> bool {
+        self.h3_7002
+    }
+
+    pub fn h3_pauschale(&self) -> f64 {
+        self.h3_pauschale
+    }
+
+    pub fn set_h3_7000ua(&mut self, i: bool) {
+        self.h3_7000ua = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_7000ua(&self) -> bool {
+        self.h3_7000ua
+    }
+
+    pub fn set_h3_auslagen(&mut self, auslagen: f64) {
+        if auslagen > 0.0 {
+            self.set_h3_7000ua(true);
+            self.h3_auslagen = auslagen;
+            self.set_h3_auto();
+        }
+    }
+
+    pub fn h3_auslagen(&self) -> f64 {
+        self.h3_auslagen
+    }
+
+    pub fn set_summe_rvg13_h3(&mut self, summe_rvg13_h3: f64) {
+        self.summe_rvg13_h3 = summe_rvg13_h3;
+    }
+
+    pub fn set_summe_rvg49_h3(&mut self, summe_rvg49_h3: f64) {
+        self.summe_rvg49_h3 = summe_rvg49_h3;
+    }
+
+    pub fn set_h3_5130(&mut self, i: bool) {
+        self.h3_5130 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_5130(&self) -> bool {
+        self.h3_5130
+    }
+
+    pub fn set_h3_5131(&mut self, i: bool) {
+        if i {
+            self.h3_5130 = true;
+            self.h3_5132 = false;
+        }
+        self.h3_5131 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_5131(&self) -> bool {
+        self.h3_5131
+    }
+
+    pub fn set_h3_5132(&mut self, i: bool) {
+        if i {
+            self.h3_5130 = true;
+            self.h3_5131 = false;
+        }
+        self.h3_5132 = i;
+        self.set_h3_auto();
+    }
+
+    pub fn h3_5132(&self) -> bool {
+        self.h3_5132
+    }
+
+    pub fn set_summe_gkg_h3(&mut self, summe_gkg_h3: f64) {
+        self.summe_gkg_h3 = summe_gkg_h3;
+    }
+
+    pub fn summe_gkg_h3(&self) -> f64 {
+        self.summe_gkg_h3
     }
 
     pub fn set_instanz_v1(&mut self, i: bool) {
@@ -1168,7 +1688,7 @@ impl Mpkr {
 
     pub fn set_v1_5211(&mut self, i: bool) {
         if i {
-            self.set_v1_5210(true);
+            self.v1_5210 = true;
         }
         self.v1_5211 = i;
         self.set_v1_auto();
@@ -1300,7 +1820,7 @@ impl Mpkr {
 
     pub fn set_v2_5241(&mut self, i: bool) {
         if i {
-            self.set_v2_5240(true);
+            self.v2_5240 = true;
         }
         self.v2_5241 = i;
         self.set_v2_auto();
