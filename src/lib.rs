@@ -900,6 +900,8 @@ impl Mpkr {
         };
         self.set_geschaeftsgebuehr(self.rvg13_geb_h as f64 * self.gebuehrensatz);
         self.set_h1_auto();
+        self.set_h2_auto();
+        self.set_h3_auto();
     }
 
     pub fn streitwert(&self) -> f64 {
@@ -916,7 +918,9 @@ impl Mpkr {
             | Thema::AsylWiderruf
             | Thema::AsylUntaetigkeit => 0,
             _ => gkg_geb(streitwert_v),
-        }
+        };
+        self.set_v1_auto();
+        self.set_v2_auto();
     }
 
     pub fn streitwert_v(&self) -> f64 {
