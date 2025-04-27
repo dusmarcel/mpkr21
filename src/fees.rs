@@ -13,28 +13,28 @@ pub fn default_streitwert(t: u32, p: u32) -> f64 { // Thema des Verfahrens, Anza
 
 pub fn rvg13_geb(streitwert: f64) -> f64 {
     let mut tmp_wert = 500.0;
-    let mut rvg13_geb = 51.5;
+    let mut rvg13_geb = 49.0;
     while streitwert > tmp_wert {
         if tmp_wert < 2000.0 {
-            rvg13_geb += 41.5;
+            rvg13_geb += 39.0;
             tmp_wert += 500.0;
         } else if tmp_wert < 10000.0 {
-            rvg13_geb += 59.5;
+            rvg13_geb += 56.0;
             tmp_wert += 1000.0;
         } else if tmp_wert < 25000.0 {
-            rvg13_geb += 55.0;
+            rvg13_geb += 52.0;
             tmp_wert += 3000.0;
         } else if tmp_wert < 50000.0 {
-            rvg13_geb += 86.0;
+            rvg13_geb += 81.0;
             tmp_wert += 5000.0;
         } else if tmp_wert <= 200000.0 {
-            rvg13_geb += 99.5;
+            rvg13_geb += 94.0;
             tmp_wert += 15000.0;
         } else if tmp_wert < 500000.0 {
-            rvg13_geb += 140.0;
+            rvg13_geb += 132.0;
             tmp_wert += 30000.0;
         } else {
-            rvg13_geb += 175.0;
+            rvg13_geb += 165.0;
             tmp_wert += 50000.0;
         }
     }
