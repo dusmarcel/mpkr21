@@ -45,43 +45,39 @@ pub fn rvg49_geb(streitwert: f64) -> f64 {
     if streitwert <= 4000.0 {
         rvg13_geb(streitwert)
     } else if streitwert <= 5000.0 {
-        319.0
+        284.0
     } else if streitwert <= 6000.0 {
-        330.0
+        295.0
     } else if streitwert <= 7000.0 {
-        341.0
+        306.0
     } else if streitwert <= 8000.0 {
-        352.0
+        317.0
     } else if streitwert <= 9000.0 {
-        363.0
+        328.0
     } else if streitwert <= 10000.0 {
-        374.0
+        339.0
     } else if streitwert <= 13000.0 {
-        389.0
+        354.0
     } else if streitwert <= 16000.0 {
-        404.0
+        369.0
     } else if streitwert <= 19000.0 {
-        419.0
+        384.0
     } else if streitwert <= 22000.0 {
-        434.0
+        399.0
     } else if streitwert <= 25000.0 {
-        449.0
+        414.0
     } else if streitwert <= 30000.0 {
-        488.0
+        453.0
     } else if streitwert <= 35000.0 {
-        527.0
+        492.0
     } else if streitwert <= 40000.0 {
-        566.0
+        531.0
     } else if streitwert <= 45000.0 {
-        605.0
+        570.0
     } else if streitwert <= 50000.0 {
-        644.0
-    } else if streitwert <= 65000.0 {
-        692.0
-    } else if streitwert <= 80.000 {
-        739.0
+        609.0
     } else {
-        786.0
+        659.0
     }
 }
 
