@@ -90,28 +90,28 @@ pub fn gkg_geb(thema: u32, streitwert: f64) -> f64 {
         0.0
     } else {
         let mut tmp_wert = 500.0;
-        let mut gkg_geb = 40.0;
+        let mut gkg_geb = 38.0;
         while streitwert > tmp_wert {
             if tmp_wert < 2000.0 {
-                gkg_geb += 21.0;
+                gkg_geb += 20.0;
                 tmp_wert += 500.0;
             } else if tmp_wert < 10000.0 {
-                gkg_geb += 22.5;
+                gkg_geb += 21.0;
                 tmp_wert += 1000.0;
             } else if tmp_wert < 25000.0 {
-                gkg_geb += 30.5;
+                gkg_geb += 29.0;
                 tmp_wert += 3000.0;
             } else if tmp_wert < 50000.0 {
-                gkg_geb += 40.5;
+                gkg_geb += 38.0;
                 tmp_wert += 5000.0;
             } else if tmp_wert <= 200000.0 {
-                gkg_geb += 14.0;
+                gkg_geb += 132.0;
                 tmp_wert += 15000.0;
             } else if tmp_wert < 500000.0 {
-                gkg_geb += 210.0;
+                gkg_geb += 198.0;
                 tmp_wert += 30000.0;
             } else {
-                gkg_geb += 210.0;
+                gkg_geb += 198.0;
                 tmp_wert += 50000.0;
             }
         }
