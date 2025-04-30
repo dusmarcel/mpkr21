@@ -8,6 +8,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-800: oklch(44.4% 0.177 26.899);
+    --color-sky-500: oklch(68.5% 0.169 237.323);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-violet-600: oklch(54.1% 0.281 293.009);
     --color-stone-50: oklch(98.5% 0.001 106.423);
@@ -259,8 +260,8 @@
   .border-stone-400 {
     border-color: var(--color-stone-400);
   }
-  .bg-red-800 {
-    background-color: var(--color-red-800);
+  .bg-sky-500 {
+    background-color: var(--color-sky-500);
   }
   .bg-linear-to-b {
     --tw-gradient-position: to bottom;
