@@ -21,6 +21,14 @@ $ cd mpkr21
 
 ### Installation mit Docker
 
+Wenn Docker installiert ist und der daemon läuft, kann der Container einfach mit
+
+```console
+$ docker compose up -d
+```
+
+erzeugt und gestartet werden. Der Rechner wird sodann über einen Webserver auf http://localhost:8021 bereitgestellt.
+
 ### Installation mit Trunk
 
 Da Frust vollständig clientseitig ausgeführt wird, sind serverseitig keine besonderen Vorbereitungen erforderlich. Die Installation sollte auf jedem üblichen Webserver möglich sein. Für die Installation wird [Rust](https://www.rust-lang.org/tools/install) benötigt, ferner das Target wasm32-unknown-unknown:
