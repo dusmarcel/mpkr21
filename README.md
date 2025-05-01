@@ -7,7 +7,25 @@ Dieser Prozesskostenrechner berechnet gesetzliche Gebühren auf der Grundlage de
 
 ## Installation
 
-tbd
+Da Frust vollständig clientseitig ausgeführt wird, sind serverseitig keine besonderen Vorbereitungen erforderlich. Die Installation sollte auf jedem üblichen Webserver möglich sein. Für die Installation wird [Rust](https://www.rust-lang.org/tools/install) benötigt, ferner das Target wasm32-unknown-unknown:
+
+```console
+$ rustup target add wasm32-unknown-unknown
+```
+
+Trunk muss auch noch installiert werden:
+
+```console
+$ cargo install trunk
+```
+
+Die benötigten JavaScript- und WASM-Dateien werden erzeugt mit:
+
+```console
+$ trunk build --release
+```
+
+trunk erzeugt einen Unterordner „dist“. Dessen Inhalt muss jetzt nur noch in das gewünschte Verzeichnis des Websververs verschoben oder kopiert werden.
 
 ## License
 
