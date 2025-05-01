@@ -7,6 +7,22 @@ Dieser Prozesskostenrechner berechnet gesetzliche Gebühren auf der Grundlage de
 
 ## Installation
 
+Der Rechner kann mit Docker oder mit Trunk installiert werden. In beiden Fällen ist es erforderlich, das Repository zunächst zu klonen:
+
+```console
+$  git clone https://github.com/dusmarcel/mpkr21.git
+```
+
+Anschließend wechselt man in das entsprechende Verzeichnis:
+
+```console
+$ cd mpkr21
+```
+
+### Installation mit Docker
+
+### Installation mit Trunk
+
 Da Frust vollständig clientseitig ausgeführt wird, sind serverseitig keine besonderen Vorbereitungen erforderlich. Die Installation sollte auf jedem üblichen Webserver möglich sein. Für die Installation wird [Rust](https://www.rust-lang.org/tools/install) benötigt, ferner das Target wasm32-unknown-unknown:
 
 ```console
